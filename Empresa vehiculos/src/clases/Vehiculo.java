@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 
 import exceptions.*;
 
-public abstract class Vehiculo {
+public abstract class Vehiculo implements Comparable<Vehiculo>{
 	//propiedades
 	
 	private String matricula;
@@ -108,7 +108,11 @@ public abstract class Vehiculo {
 	}
 	
 	//Métodos 
-	
+	/**
+	 * Comprueba si la matrícula introducida tiene un formato válido, devuelve un booleano.
+	 * @param matricula Matricula que validar
+	 * @return
+	 */
 	public static boolean validaMatricula(String matricula) {
 		boolean fin=true;
 		if (matricula.toUpperCase().matches("^[0-9]{4}[A-Z]{3}$")) {
@@ -143,6 +147,19 @@ public abstract class Vehiculo {
 		}
 		return fin;
 		
+	}
+	/**
+	 * Compara dos vehiculos a través de su matricula, si son los mismos vehiculos devolverá un 0, si son distintos devolverá un 1
+	 */
+	public int compareTo(Vehiculo a) {
+		int resultado=0;
+		if(this.matricula==a.matricula) {
+			resultado=0;
+		}else{
+			resultado=1;
+		}
+		
+		return resultado;
 	}
 
 }
