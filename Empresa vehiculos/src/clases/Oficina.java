@@ -15,8 +15,13 @@ public class Oficina {
 	public String getCodigo() {
 		return codigo;
 	}
-	private void setCodigo(String codigo) {
-		this.codigo = codigo;
+	private void setCodigo(String codigo) throws Codigo_no_valido {
+		if(validaCodigo(codigo)) {
+			this.codigo = codigo;
+		}else {
+			throw new Codigo_no_valido();
+		}
+		
 	}
 	public String getDescripcion() {
 		return descripcion;
@@ -62,7 +67,20 @@ public class Oficina {
 	
 	//Constructores
 	
-	public Oficina(String codigo, String descripcion, String localidad, String provincia, String aeropuerto) throws Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida {
+	/**
+	 * 
+	 * @param codigo String de longitud 4 formado por los dos letras y dos numeros
+	 * @param descripcion String para introducir donde esta la oficina
+	 * @param localidad String para introducir la localidad de la oficina
+	 * @param provincia String para introducir la provincia de la oficina
+	 * @param aeropuerto String que indica si la oficina consta de aeropuerto, la opciones a introducir son Y/N
+	 * @throws Descripcion_no_valida
+	 * @throws Localidad_no_valida
+	 * @throws Provincia_no_valida
+	 * @throws Opcion_no_valida
+	 * @throws Codigo_no_valido
+	 */
+	public Oficina(String codigo, String descripcion, String localidad, String provincia, String aeropuerto) throws Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
 		super();
 		setCodigo(codigo);
 		setDescripcion(descripcion);
@@ -73,11 +91,31 @@ public class Oficina {
 	
 	//Metodos
 	
-	//public static boolean validaCodigo(String codigo) {
-	//	String letras= codigo.substring(0,1);
-		//int
+	public static boolean validaCodigo(String codigo) {
+		boolean fin=true;
 		
-	//}
+		for (int i=0; i<2; i++) {
+	        char c = codigo.charAt(i);
+	        // Si no está entre a y z, ni entre A y Z, ni es un espacio
+	        if (((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ')) {
+	            fin= true;
+	        }else {
+		    	return false;
+		    }
+	    }
+		
+		for (int i=2; i<4; i++) {
+	        char c = codigo.charAt(i);
+	        // Si no está entre a y z, ni entre A y Z, ni es un espacio
+	        if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ')) {
+	            fin= true;
+	        }else {
+		    	return false;
+		    }
+	    }
+	    
+	    return fin;
+	}
 	
 	public static String esAeropuerto(String opcion) throws Opcion_no_valida {
 		String resultado="SI";

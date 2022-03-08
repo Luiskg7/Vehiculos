@@ -1,13 +1,15 @@
 package clases;
 
- abstract public class Persona {
+import exceptions.*;
+
+abstract public class Persona {
 
 	//Propiedades
 	
-	private String nombre;
-	private String ape1;
-	private String ape2;
-	private String dni;
+	protected String nombre;
+	protected String ape1;
+	protected String ape2;
+	protected String dni;
 	
 	
 	//Getters and Setters
@@ -15,45 +17,53 @@ package clases;
 	public String getNombre() {
 		return nombre;
 	}
-	public void setNombre(String nombre) {
+	public void setNombre(String nombre) throws Longitud_no_valida {
 		if (nombre.length()>=2 && nombre.length()<=25){
 			this.nombre = nombre;
+		}else {
+			throw new Longitud_no_valida();
 		}
 	}
 	public String getApe1() {
 		return ape1;
 	}
-	public void setApe1(String ape1) {
+	public void setApe1(String ape1) throws Longitud_no_valida {
 		if (ape1.length()>=3 && ape1.length()<=25) {
 			this.ape1 = ape1;
+		}else {
+			throw new Longitud_no_valida();
 		}
 	}
 	public String getApe2() {
 		return ape2;
 	}
-	public void setApe2(String ape2) {
+	public void setApe2(String ape2) throws Longitud_no_valida {
 		if (ape2.length()>=3 && ape2.length()<=25) {
 			this.ape2 = ape2;
+		}else {
+			throw new Longitud_no_valida();
 		}
 	}
 	public String getDni() {
 		return dni;
 	}
-	public void setDni(String dni) {
+	public void setDni(String dni) throws Dni_no_valido {
 		if (validaDNI(dni)) {
 		this.dni = dni;
+		}else {
+			throw new Dni_no_valido();
 		}
 	}
 	
 	
 	//Constructores
-	public Persona(String nombre, String ape1, String ape2, String dni) {
+	public Persona(String nombre, String ape1, String ape2, String dni) throws Longitud_no_valida, Dni_no_valido {
 		setNombre(nombre);
 		setApe1(ape1);
 		setApe2(ape2);
 		setDni(dni);
 	}
-	public Persona(String nombre, String ape1, String dni) {
+	public Persona(String nombre, String ape1, String dni) throws Dni_no_valido, Longitud_no_valida {
 		setNombre(nombre);
 		setApe1(ape1);
 		setApe2(null);
