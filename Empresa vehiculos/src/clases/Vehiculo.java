@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 
 import exceptions.*;
 
-public abstract class Vehiculo implements Comparable<Vehiculo>{
+public abstract class Vehiculo{
 	//propiedades
 	
 	private String matricula;
@@ -23,12 +23,7 @@ public abstract class Vehiculo implements Comparable<Vehiculo>{
 		return matricula;
 	}
 	private void setMatricula(String matricula) throws Matricula_no_valida {
-		if (validaMatricula(matricula)) {
-			this.matricula = matricula;
-		}else {
-			throw new Matricula_no_valida();
-		}
-		
+		this.matricula = matricula;
 	}
 	public String getMarca() {
 		return marca;
@@ -55,12 +50,7 @@ public abstract class Vehiculo implements Comparable<Vehiculo>{
 		return color;
 	}
 	private void setColor(String color) throws Color_no_valido {
-		if (validaColor(color)) {
-			this.color = color;
-		}else {
-			throw new Color_no_valido("Compruebe que el color haya sido escrito correctamente y sin tíldes.");
-		}
-		
+		this.color = color;
 	}
 	public GregorianCalendar getFecha_adq() {
 		return fecha_adq;
@@ -72,11 +62,7 @@ public abstract class Vehiculo implements Comparable<Vehiculo>{
 		return kms;
 	}
 	private void setKms(double kms) throws Km_no_valido {
-		if (kms>=0) {
-			this.kms = kms;
-		}else {
-			throw new Km_no_valido("Introduzca un valor mayor o igual a 0");
-		}
+		this.kms = kms;
 	}
 	public Categoria getCategoria() {
 		return categoria;
@@ -112,19 +98,19 @@ public abstract class Vehiculo implements Comparable<Vehiculo>{
 	 * Comprueba si la matrícula introducida tiene un formato válido, devuelve un booleano.
 	 * @param matricula Matricula que validar
 	 * @return
+	 * @throws Matricula_no_valida 
 	 */
-	public static boolean validaMatricula(String matricula) {
-		boolean fin=true;
+	public static void validaMatricula(String matricula) throws Matricula_no_valida {
 		if (matricula.toUpperCase().matches("^[0-9]{4}[A-Z]{3}$")) {
-	        fin= true;
+	        
 	    }else{
-	        fin= false;
+	    	throw new Matricula_no_valida();
 	    } 
-		return fin;
+		
 	}
 	
-	public static boolean validaColor(String color) {
-		boolean fin=true;
+	public static void validaColor(String color) throws Color_no_valido{
+		int o=0;
 		ArrayList<String> colores=new ArrayList<String>();
 		colores.add("negro");
 		colores.add("azul");
@@ -138,20 +124,28 @@ public abstract class Vehiculo implements Comparable<Vehiculo>{
 		colores.add("blanco");
 		colores.add("amarillo");
 		for(String i: colores) {
-			if (i==color.toLowerCase()) {
-				fin=true;
+			if (i.equalsIgnoreCase(color)) {
+				o=1;
 				break;
-			}else {
-				fin=false;
 			}
 		}
-		return fin;
+		if (o==0) {
+			throw new Color_no_valido("Compruebe que el color haya sido escrito correctamente y sin tíldes.");
+		}
 		
+	}
+	
+	public static void validaKm(int km) throws Km_no_valido {
+		if (km>=0) {
+			
+		}else {
+			throw new Km_no_valido("Debe ser superior a 0");
+		}
 	}
 	/**
 	 * Compara dos vehiculos a través de su matricula, si son los mismos vehiculos devolverá un 0, si son distintos devolverá un 1
 	 */
-	public int compareTo(Vehiculo a) {
+	public int equals(Vehiculo a) {
 		int resultado=0;
 		if(this.matricula==a.matricula) {
 			resultado=0;

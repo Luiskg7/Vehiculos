@@ -37,16 +37,19 @@ public class Coche_combustion extends Combustion{
 	//Constructores
 	/**
 	 * 
-	 * @param matricula
-	 * @param marca
-	 * @param modelo
-	 * @param color
-	 * @param fecha_adq
-	 * @param kms
-	 * @param categoria
-	 * @param ubicacion
-	 * @param plazas
-	 * @param tipo
+	 * @param matricula String formado por 4 numeros seguido de 3 caracteres
+	 * @param marca String de la marca del coche
+	 * @param modelo String del modelo de coche
+	 * @param color String del color del coche
+	 * @param fecha_adq Tipo de dato GregorianCalendar de la fecha en la que se adquirió el coche
+	 * @param kms Int del numero de kilometros que tiene el coche. Puede ser 0 si resulta ser nuevo
+	 * @param categoria Variable de tipo categoria
+	 * @param ubicacion Variable de tipo oficina en la que se encuentra el coche
+	 * @param consumo Double de consumo de litros del coche por cada 100km
+	 * @param potencia Int de CV del coche
+	 * @param emisiones String de 1 caracter que puede ser A/B/C
+	 * @param plazas Int con el numero de plazas del coche
+	 * @param tipo String del tipo de coche
 	 * @throws Km_no_valido
 	 * @throws Matricula_no_valida
 	 * @throws Marca_no_valida
@@ -59,14 +62,20 @@ public class Coche_combustion extends Combustion{
 	 * @throws Tipo_no_valido
 	 */
 	public Coche_combustion(String matricula, String marca, String modelo, String color, GregorianCalendar fecha_adq,
-			double kms, Categoria categoria, Oficina ubicacion, int plazas, String tipo) throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido, Color_no_valido, Potencia_no_valida, Emision_no_valida, Consumo_no_valido, Plazas_no_validas, Tipo_no_valido {
-		super(matricula, marca, modelo, color, fecha_adq, kms, categoria, ubicacion);
+			double kms, Categoria categoria, Oficina ubicacion, double consumo, int potencia, String emisiones,
+			int plazas, String tipo) throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido,
+			Color_no_valido, Emision_no_valida, Potencia_no_valida, Consumo_no_valido, Plazas_no_validas, Tipo_no_valido {
+		super(matricula, marca, modelo, color, fecha_adq, kms, categoria, ubicacion, consumo, potencia, emisiones);
 		setPlazas(plazas);
 		setTipo(tipo);
 	}
 	
 	//Metodos
-	
+	/**
+	 * Metodo que valida que el tipo de coche que se ha introducido es correcto
+	 * @param tipo String del tipo de coche
+	 * @return
+	 */
 	public boolean validaTipo (String tipo) {
 		boolean fin=true;
 		
@@ -78,4 +87,6 @@ public class Coche_combustion extends Combustion{
 		
 		return fin;
 	}
+	
+
 }

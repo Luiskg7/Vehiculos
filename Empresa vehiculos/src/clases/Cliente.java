@@ -57,6 +57,12 @@ public class Cliente extends Persona{
 	}
 	
 	//Metodos
+	
+	/**
+	 * Verifica que la estructura de una tarjeta introducida es válida
+	 * @param tarjeta String de la tarjeta a introducir (9 numeros)
+	 * @return
+	 */
 	public static boolean validaTarjeta(String tarjeta) {
 		boolean fin=true;
 		for (int i=0; i<tarjeta.length(); i++) {

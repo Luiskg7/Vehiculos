@@ -12,7 +12,7 @@ public class Menu {
 	 * @param opcionvalida Vector de String del String que debe introducir el usuario para poder elegir una de las opciones escritas
 	 * @param titulo String que muestra el titulo del menú
 	 * @param subrayado String de tamaño 1 que subraya el menú con el caracter introducido
-	 * @return
+	 * @return String 
 	 */
 	public static String menuOpciones(String[] opciones,String[] opcionvalida,String titulo,String subrayado)
 	{
@@ -95,5 +95,7 @@ public class Menu {
 			}
 		}
 		System.out.println(")");
+		System.out.println();
 	}
+	
 }

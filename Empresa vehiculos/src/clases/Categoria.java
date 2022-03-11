@@ -1,8 +1,9 @@
 package clases;
 
 import exceptions.*;
+import clases.*;
 
-public class Categoria {
+public class Categoria{
 	
 	//propiedades
 	private String codigo;
@@ -14,7 +15,7 @@ public class Categoria {
 		return codigo;
 	}
 	private void setCodigo(String codigo) throws Codigo_no_valido {
-		if (codigo.length()>0 && codigo.length()<=1) {
+		if (codigo.length()==1) {
 			this.codigo = codigo;
 		}else {
 			throw new Codigo_no_valido();
@@ -44,12 +45,35 @@ public class Categoria {
 	
 	
 	//Constructores
-	
+	/**
+	 * 
+	 * @param codigo String de tamaño de 1 caracter que contiene una letra
+	 * @param descripcion String de tamaño maximo de 25 caracteres 
+	 * @param recargo Int de valor entre 0 y 100 que supone el porcentaje de recargo en los alquileres
+	 * @throws Codigo_no_valido
+	 * @throws Descripcion_no_valida
+	 * @throws Recargo_no_valido
+	 */
 	public Categoria(String codigo, String descripcion, int recargo) throws Codigo_no_valido, Descripcion_no_valida, Recargo_no_valido {
 		super();
 		setCodigo(codigo);
 		setDescripcion(descripcion);
 		setRecargo(recargo);
+	}
+	
+	//metodos
+
+	/**
+	 * Comprueba que el código no tenga más de un caracter
+	 * @param codigo
+	 * @throws Codigo_no_valido
+	 */
+	public static void validaCodigo(String codigo) throws Codigo_no_valido {
+		if (codigo.length()==1) {
+			
+		}else {
+			throw new Codigo_no_valido();
+		}
 	}
 	
 	

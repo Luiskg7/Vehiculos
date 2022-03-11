@@ -6,6 +6,7 @@ import exceptions.*;
 
 
 abstract public class Combustion extends Vehiculo{
+	
 	//propiedades
 	private double consumo;
 	private int potencia;
@@ -50,9 +51,9 @@ abstract public class Combustion extends Vehiculo{
 	//Constructor
 	
 	public Combustion(String matricula, String marca, String modelo, String color, GregorianCalendar fecha_adq,
-			double kms, Categoria categoria, Oficina ubicacion) throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido, Color_no_valido, Potencia_no_valida, Emision_no_valida, Consumo_no_valido {
+			double kms, Categoria categoria, Oficina ubicacion, double consumo, int potencia, String emisiones)
+			throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido, Color_no_valido, Emision_no_valida, Potencia_no_valida, Consumo_no_valido {
 		super(matricula, marca, modelo, color, fecha_adq, kms, categoria, ubicacion);
-		// TODO Auto-generated constructor stub
 		setConsumo(consumo);
 		setPotencia(potencia);
 		setEmisiones(emisiones);
@@ -60,6 +61,11 @@ abstract public class Combustion extends Vehiculo{
 	
 	//Métodos
 	
+	/**
+	 * Metodo que comprueba si la emision del coche introducida es válida según las opciones existentes.
+	 * @param emision String de 1 caracter
+	 * @return Dato de tipo booleano
+	 */
 	public boolean validaEmision(String emision) {
 		boolean fin=true;
 		
@@ -72,5 +78,7 @@ abstract public class Combustion extends Vehiculo{
 		
 		
 	}
+	
+
 
 }

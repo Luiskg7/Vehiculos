@@ -1,36 +1,75 @@
 package clases;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
-public class Empresa {
+public class Empresa{
 	
 	//propiedades
 	
-	private TreeMap<String,Vehiculo> vehiculo;
-	private TreeMap<String,Cliente> cliente;
-	private TreeMap<String,Empleado> empleado;
-	
+	private TreeMap<Integer,Vehiculo> vehiculo;
+	private TreeMap<Integer,Cliente> cliente;
+	private TreeMap<Integer,Empleado> empleado;
+	private FileOutputStream file;
+	private ObjectOutputStream output;
 	
 
 	
 	//Getters and setters
-	private TreeMap<String, Vehiculo> getVehiculo() {
+	
+	public TreeMap<Integer, Vehiculo> getVehiculo() {
 		return vehiculo;
 	}
-	private void setVehiculo(TreeMap<String, Vehiculo> vehiculo) {
+	private void setVehiculo(TreeMap<Integer, Vehiculo> vehiculo) {
 		this.vehiculo = vehiculo;
 	}
-	private TreeMap<String, Cliente> getCliente() {
+	public TreeMap<Integer, Cliente> getCliente() {
 		return cliente;
 	}
-	private void setCliente(TreeMap<String, Cliente> cliente) {
+	private void setCliente(TreeMap<Integer, Cliente> cliente) {
 		this.cliente = cliente;
 	}
-	private TreeMap<String, Empleado> getEmpleado() {
+	public TreeMap<Integer, Empleado> getEmpleado() {
 		return empleado;
 	}
-	private void setEmpleado(TreeMap<String, Empleado> empleado) {
+	private void setEmpleado(TreeMap<Integer, Empleado> empleado) {
 		this.empleado = empleado;
 	}
+
+	
+	public static Empresa empresa;
+	//Constructores
+	public Empresa(TreeMap<Integer, Vehiculo> vehiculo, TreeMap<Integer, Cliente> cliente,
+			TreeMap<Integer, Empleado> empleado) {
+		super();
+		this.vehiculo = vehiculo;
+		this.cliente = cliente;
+		this.empleado = empleado;
+	}
+	
+	//Metodos
+	
+	
+	
+	public boolean compruebaCategoria (String codigo) {
+		
+		for(Entry<Integer, Vehiculo> vehiculo : vehiculo.entrySet()) {
+			
+			int key =vehiculo.getKey();
+			Vehiculo value= vehiculo.getValue(); 
+					
+			if(value.equals(codigo)) {
+				return true;
+					
+				}
+		}
+		return false;
+	}
+	
+		
 	
 }
