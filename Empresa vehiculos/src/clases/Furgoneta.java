@@ -1,11 +1,16 @@
 package clases;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import exceptions.*;
 
-public class Furgoneta extends Combustion{
+public class Furgoneta extends Combustion implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//propiedades
 	private double carga;
 	private String carnet;

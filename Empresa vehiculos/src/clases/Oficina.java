@@ -1,9 +1,15 @@
 package clases;
 
+import java.io.Serializable;
+
 import exceptions.*;
 
-public class Oficina {
+public class Oficina implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//propiedades
 	private String codigo;
 	private String descripcion;
@@ -38,7 +44,7 @@ public class Oficina {
 		return localidad;
 	}
 	private void setLocalidad(String localidad) throws Localidad_no_valida {
-		if(localidad.length()>5 && localidad.length()<=30) {
+		if(localidad.length()>2 && localidad.length()<=30) {
 			this.localidad = localidad;
 		}else {
 			throw new Localidad_no_valida();
@@ -49,7 +55,7 @@ public class Oficina {
 		return provincia;
 	}
 	private void setProvincia(String provincia) throws Provincia_no_valida {
-		if(provincia.length()>5 && provincia.length()<=25) {
+		if(provincia.length()>3 && provincia.length()<=25) {
 			this.provincia = provincia;
 		}else {
 			throw new Provincia_no_valida();
@@ -91,7 +97,7 @@ public class Oficina {
 	
 	//Metodos
 	
-	public static boolean validaCodigo(String codigo) {
+	public static boolean validaCodigo(String codigo) throws Codigo_no_valido {
 		boolean fin=true;
 		
 		for (int i=0; i<2; i++) {
@@ -100,7 +106,7 @@ public class Oficina {
 	        if (((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ')) {
 	            fin= true;
 	        }else {
-		    	return false;
+		    	throw new Codigo_no_valido();
 		    }
 	    }
 		
@@ -110,7 +116,7 @@ public class Oficina {
 	        if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ')) {
 	            fin= true;
 	        }else {
-		    	return false;
+	        	throw new Codigo_no_valido();
 		    }
 	    }
 	    

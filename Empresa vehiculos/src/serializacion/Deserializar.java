@@ -11,15 +11,18 @@ public class Deserializar implements Serializable{
 	
 	/**
 	 * Lee los datos de la empresa en un fichero ubicado en la siguiente ruta: "C:/Users/lcgas/Documents/Datos_empresa/empresas.ser"
+	 * @return 
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static void recoger_datos() throws IOException, ClassNotFoundException {
+	public static Empresa recoger_datos(Empresa empresa) throws IOException, ClassNotFoundException {
 		file = new FileInputStream("C:/Users/lcgas/Documents/Datos_empresa/empresas.ser");
 		input = new ObjectInputStream(file);
 		
-		Empresa.empresa=(Empresa) input.readObject();
+		empresa=(Empresa) input.readObject();
 		input.close();
+		return empresa;
+		
 		
 	}
 

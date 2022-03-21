@@ -1,11 +1,16 @@
 package clases;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import exceptions.*;
 
- public class Coche_electrico extends Electrico{
+ public class Coche_electrico extends Electrico implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//propiedades
 	private int plazas;
 	private String tipo;
@@ -45,8 +50,8 @@ import exceptions.*;
 	 * @param color String del color del coche
 	 * @param fecha_adq Tipo de dato GregorianCalendar de la fecha en la que se adquirió el coche
 	 * @param kms Int del numero de kilometros que tiene el coche. Puede ser 0 si resulta ser nuevo
-	 * @param categoria Variable de tipo categoria
-	 * @param ubicacion Variable de tipo oficina en la que se encuentra el coche
+	 * @param string Variable de tipo categoria
+	 * @param string2 Variable de tipo oficina en la que se encuentra el coche
 	 * @param autonomia Variable de tipo double que define los kilometros de autonomia del coche
 	 * @param recarga Variable de tipo Int que indica los minutos que tarda en recargar el coche
 	 * @param plazas Int con el numero de plazas del coche
@@ -61,6 +66,7 @@ import exceptions.*;
 	 * @throws Plazas_no_validas
 	 * @throws Tipo_no_valido
 	 */
+	
 	public Coche_electrico(String matricula, String marca, String modelo, String color, GregorianCalendar fecha_adq,
 			double kms, Categoria categoria, Oficina ubicacion, double autonomia, int recarga, int plazas,
 			String tipo) throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido, Color_no_valido, Autonomia_no_valida, Recarga_no_valida, Plazas_no_validas, Tipo_no_valido {
@@ -69,8 +75,11 @@ import exceptions.*;
 		setTipo(tipo);
 	}
 	
+	
+	
 	//Metodos
 	
+
 	/**
 	 * Metodo que comprueba que el tipo de coche introducido es válido segun las opciones que existen.
 	 * @param tipo String del tipo de coche

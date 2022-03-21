@@ -1,11 +1,17 @@
 package clases;
 
+import java.io.Serializable;
+
 import exceptions.*;
 
-abstract public class Persona {
+abstract public class Persona implements Serializable{
 
 	//Propiedades
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String nombre;
 	protected String ape1;
 	protected String ape2;

@@ -1,13 +1,18 @@
 package clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import exceptions.*;
 
-public abstract class Vehiculo{
+public abstract class Vehiculo implements Serializable{
 	//propiedades
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String matricula;
 	private String marca;
 	private String modelo;
@@ -93,6 +98,7 @@ public abstract class Vehiculo{
 		setUbicacion(ubicacion);
 	}
 	
+	
 	//Métodos 
 	/**
 	 * Comprueba si la matrícula introducida tiene un formato válido, devuelve un booleano.
@@ -135,7 +141,7 @@ public abstract class Vehiculo{
 		
 	}
 	
-	public static void validaKm(int km) throws Km_no_valido {
+	public static void validaKm(double km) throws Km_no_valido {
 		if (km>=0) {
 			
 		}else {

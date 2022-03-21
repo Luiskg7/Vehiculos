@@ -1,10 +1,17 @@
 package clases;
 
 import exceptions.*;
+
+import java.io.Serializable;
+
 import clases.*;
 
-public class Categoria{
+public class Categoria implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//propiedades
 	private String codigo;
 	private String descripcion;

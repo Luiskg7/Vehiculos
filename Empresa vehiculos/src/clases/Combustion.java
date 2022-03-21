@@ -1,12 +1,17 @@
 package clases;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import exceptions.*;
 
 
-abstract public class Combustion extends Vehiculo{
+abstract public class Combustion extends Vehiculo implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//propiedades
 	private double consumo;
 	private int potencia;

@@ -1,12 +1,17 @@
 package clases;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import exceptions.Dni_no_valido;
 import exceptions.Longitud_no_valida;
 
-public class Empleado extends Persona{
+public class Empleado extends Persona implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//propiedades
 	private GregorianCalendar fecha_alta;
 	private Oficina oficina_trab;

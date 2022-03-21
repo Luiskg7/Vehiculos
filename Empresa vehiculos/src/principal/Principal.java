@@ -7,9 +7,10 @@ import interfazUsuario.*;
 import serializacion.*;
 public class Principal {
 
-	public static void main(String[] args) throws Matricula_no_valida, ClassNotFoundException, IOException {
+	public static void main(String[] args) throws Matricula_no_valida, ClassNotFoundException, IOException, Km_no_valido, Marca_no_valida, Modelo_no_valido, Color_no_valido, Autonomia_no_valida, Recarga_no_valida, Plazas_no_validas, Tipo_no_valido, Codigo_no_valido, Descripcion_no_valida, Recargo_no_valido, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida {
 		// TODO Auto-generated method stub
-		
+		Empresa empresa=new Empresa();
+		empresa=Deserializar.recoger_datos(empresa);
 		String [] opc= {"1- Hacer una modificacion","2- Alquilar un vehículo","3- Devolver un vehículo alquilado"};
 		String [] opciones= {"1","2","3"};
 		
@@ -24,7 +25,17 @@ public class Principal {
 			
 			switch(paso1) {//Menu para las modificaciones de la clase selecionada
 				case "1":
+					String [] opc11= {"1- Dar de alta una oficina","2- Modificar una oficina ya existente","3- Eliminar una oficina existente"};
+					String [] opciones11= {"1","2","3"};
+					String paso11=interfazUsuario.Menu.menuOpciones(opc11, opciones11, "Modificaciones", "-");
 					
+					switch(paso11) {
+						case "1":
+							interfazUsuario.Alta.darAltaOficina(empresa);
+							break;
+						
+					}
+					break;
 					
 					
 				case "2":
@@ -34,9 +45,11 @@ public class Principal {
 					
 					switch(paso12) {
 						case "1":
-						//	interfazUsuario.Alta.darAltaCategoria();
+							interfazUsuario.Alta.darAltaCategoria(empresa);
+							break;
 						
 					}
+					break;
 				case "3"://Menu para seleccionar sobre que tipo de vehiculo se va a hacer las modificaciones
 					String [] opc13= {"1- Coche electrico","2- Coche combustion","3- Moto","4- Furgoneta"};
 					String [] opciones13= {"1","2","3","4"};
@@ -50,8 +63,8 @@ public class Principal {
 							String paso131=interfazUsuario.Menu.menuOpciones(opc131, opciones131, "¿Que desea hacer?", "-");
 							switch(paso131) {
 								case "1":
-									interfazUsuario.Alta.darAltaCocheElectrico();
-									Serializar.registrar_datos();
+									interfazUsuario.Alta.darAltaCocheElectrico(empresa);
+									
 								
 							}
 							

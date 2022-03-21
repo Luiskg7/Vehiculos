@@ -1,22 +1,31 @@
 package clases;
 
 import java.io.FileOutputStream;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-public class Empresa{
+import exceptions.*;
+
+public class Empresa implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//propiedades
 	
 	private TreeMap<Integer,Vehiculo> vehiculo;
 	private TreeMap<Integer,Cliente> cliente;
 	private TreeMap<Integer,Empleado> empleado;
+	private TreeMap<Integer,Categoria> categoria;
+	private TreeMap<Integer,Oficina> oficina;
+	
 	private FileOutputStream file;
 	private ObjectOutputStream output;
-	
 
 	
 	//Getters and setters
@@ -38,38 +47,80 @@ public class Empresa{
 	}
 	private void setEmpleado(TreeMap<Integer, Empleado> empleado) {
 		this.empleado = empleado;
+	}	
+	public TreeMap<Integer, Categoria> getCategoria() {
+		return categoria;
 	}
-
-	
-	public static Empresa empresa;
+	public void setCategoria(Integer key,Categoria categoria) {
+		this.categoria.put(key, categoria);
+		
+	}
+	public TreeMap<Integer, Oficina> getOficina() {
+		return oficina;
+	}
+	public void setOficina(TreeMap<Integer, Oficina> oficina) {
+		this.oficina = oficina;
+	}
 	//Constructores
 	public Empresa(TreeMap<Integer, Vehiculo> vehiculo, TreeMap<Integer, Cliente> cliente,
-			TreeMap<Integer, Empleado> empleado) {
+			TreeMap<Integer, Empleado> empleado, TreeMap<Integer, Categoria> categoria,
+			TreeMap<Integer, Oficina> oficina) {
 		super();
+		new Empresa();
 		this.vehiculo = vehiculo;
 		this.cliente = cliente;
 		this.empleado = empleado;
+		this.categoria = categoria;
+		this.oficina = oficina;
 	}
 	
+	
+	public Empresa() {
+		this.vehiculo= new TreeMap<>();
+		this.empleado= new TreeMap<>();
+		this.cliente= new TreeMap<>();
+		this.categoria= new TreeMap<>();
+		this.oficina= new TreeMap<>();
+	}
 	//Metodos
 	
 	
 	
-	public boolean compruebaCategoria (String codigo) {
+	
+	public static Categoria compruebaCategoria (String codigo,Empresa empresa) throws Categoria_no_existe {
 		
-		for(Entry<Integer, Vehiculo> vehiculo : vehiculo.entrySet()) {
+		for(Entry<Integer, Categoria> categoria : empresa.categoria.entrySet()) {
 			
-			int key =vehiculo.getKey();
-			Vehiculo value= vehiculo.getValue(); 
+			int key =categoria.getKey();
+			Categoria value= categoria.getValue(); 
 					
-			if(value.equals(codigo)) {
-				return true;
-					
+			if(value.getCodigo().equals(codigo)) {
+				return value;
 				}
 		}
-		return false;
+		throw new Categoria_no_existe();
 	}
 	
+public static Oficina compruebaOficina (String codigo,Empresa empresa) throws Oficina_no_existe {
 		
+		for(Entry<Integer, Oficina> oficina : empresa.oficina.entrySet()) {
+			
+			int key =oficina.getKey();
+			Oficina value= oficina.getValue(); 
+					
+			if(value.getCodigo().equals(codigo)) {
+				return value;
+				}
+		}
+		throw new Oficina_no_existe();
+	}
+	
+	public void añadeCategoria(Integer key,Categoria categoria) {
+		this.categoria.put(key,categoria);
+	}
+	
+	public void añadeOficina(Integer key,Oficina oficina) {
+		this.oficina.put(key,oficina);
+	}
 	
 }

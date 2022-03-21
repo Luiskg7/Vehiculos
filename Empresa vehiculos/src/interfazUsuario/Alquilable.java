@@ -1,11 +1,16 @@
 package interfazUsuario;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import clases.*;
 
-public class Alquilable {
+public class Alquilable implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//propiedades
 	private Vehiculo vehiculo;
 	private Empleado empleado;

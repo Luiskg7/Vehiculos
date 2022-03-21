@@ -1,8 +1,14 @@
 package clases;
 
+import java.io.Serializable;
+
 import exceptions.*;
 
-public class Cliente extends Persona{
+public class Cliente extends Persona implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//propiedades
 	private String licencia;
 	private String  tarjeta;
