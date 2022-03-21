@@ -123,4 +123,8 @@ public static Oficina compruebaOficina (String codigo,Empresa empresa) throws Of
 		this.oficina.put(key,oficina);
 	}
 	
+	public void añadeVehiculo(Integer key,Vehiculo oficina) {
+		this.vehiculo.put(key,oficina);
+	}
+	
 }
