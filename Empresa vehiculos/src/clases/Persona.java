@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 
 import exceptions.*;
 
@@ -16,6 +17,7 @@ abstract public class Persona implements Serializable{
 	protected String ape1;
 	protected String ape2;
 	protected String dni;
+	protected GregorianCalendar fecha_nac;
 	
 	
 	//Getters and Setters
@@ -60,20 +62,26 @@ abstract public class Persona implements Serializable{
 			throw new Dni_no_valido();
 		}
 	}
-	
-	
+	public GregorianCalendar getFecha_nac() {
+		return fecha_nac;
+	}
+	public void setFecha_nac(GregorianCalendar fecha_nac) {
+		this.fecha_nac = fecha_nac;
+	}
 	//Constructores
-	public Persona(String nombre, String ape1, String ape2, String dni) throws Longitud_no_valida, Dni_no_valido {
+	public Persona(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac) throws Longitud_no_valida, Dni_no_valido {
 		setNombre(nombre);
 		setApe1(ape1);
 		setApe2(ape2);
 		setDni(dni);
+		setFecha_nac(fecha_nac);
 	}
-	public Persona(String nombre, String ape1, String dni) throws Dni_no_valido, Longitud_no_valida {
+	public Persona(String nombre, String ape1, String dni,GregorianCalendar fecha_nac) throws Dni_no_valido, Longitud_no_valida {
 		setNombre(nombre);
 		setApe1(ape1);
 		setApe2(null);
 		setDni(dni);
+		setFecha_nac(fecha_nac);
 	}
 	
 	

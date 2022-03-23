@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 
 import exceptions.*;
 
@@ -56,8 +57,8 @@ public class Cliente extends Persona implements Serializable{
 	 * @throws Dni_no_valido 
 	 */
 	//Constructores
-	public Cliente(String nombre, String ape1, String ape2, String dni, String licencia, String tarjeta) throws Carnet_no_valido, Longitud_no_valida, Tarjeta_no_valida, Dni_no_valido {
-		super(nombre, ape1, ape2, dni);
+	public Cliente(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac, String licencia, String tarjeta) throws Carnet_no_valido, Longitud_no_valida, Tarjeta_no_valida, Dni_no_valido {
+		super(nombre, ape1, ape2, dni,fecha_nac);
 		setLicencia(licencia);
 		setTarjeta(tarjeta);
 	}

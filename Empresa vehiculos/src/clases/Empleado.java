@@ -43,9 +43,9 @@ public class Empleado extends Persona implements Serializable{
 	 * @throws Longitud_no_valida
 	 * @throws Dni_no_valido
 	 */
-	public Empleado(String nombre, String ape1, String ape2, String dni, GregorianCalendar fecha_alta,
+	public Empleado(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac, GregorianCalendar fecha_alta,
 			Oficina oficina_trab) throws Longitud_no_valida, Dni_no_valido {
-		super(nombre, ape1, ape2, dni);
+		super(nombre, ape1, ape2, dni,fecha_nac);
 		setFecha_alta(fecha_alta);
 		setOficina_trab(oficina_trab);
 	}
