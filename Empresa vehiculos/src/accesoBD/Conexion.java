@@ -2,30 +2,31 @@ package accesoBD;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Metodos {
-
-
+public class Conexion {
+	
+	//propiedades estaticas
+	public static Connection conexion;
+	public static Statement st;
+	
 	/**
-	 * Conecta con la base de datos MySQL de la empresa de vehiculos localhost a través del usuario
-	 * root.
-	 * @return Objeto de tipo Connection para poder operar con consultas
+	 * Método que conecta con la base de datos
 	 */
-	public static Connection conexion(){
-		Connection conexion =null;
+	public static void conexion(){
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver"); //driver MySQL
-			conexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/ejemplo","root","22Marzo2001."); //conexion a través del usuario y su contraseña
+			conexion =DriverManager.getConnection("jdbc:mysql://localhost:3306/empresaVehiculos","root","22Marzo2001."); //conexion a través del usuario y su contraseña
+			st=Conexion.conexion.createStatement();//Orden creada para realizar consultas
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return conexion;
 	}
 	
-	
+
 	/**
 	 * Realiza una consulta de tipo SELECT a una base de datos introducida por parámetro.
 	 * @param conexion Objeto de tipo Connection referente a la base de datos a ejecutar.
@@ -44,5 +45,5 @@ public class Metodos {
 		}
 		return resultado;
 	}
-	
+
 }

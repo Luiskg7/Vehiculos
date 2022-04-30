@@ -12,9 +12,8 @@ import exceptions.*;
 import serializacion.Deserializar;
 public class Principal {
 
-	public static void main(String[] args) throws Matricula_no_valida, ClassNotFoundException, IOException, Km_no_valido, Marca_no_valida, Modelo_no_valido, Color_no_valido, Autonomia_no_valida, Recarga_no_valida, Plazas_no_validas, Tipo_no_valido, Codigo_no_valido, Descripcion_no_valida, Recargo_no_valido, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida {
+	public static void main(String[] args) throws Matricula_no_valida, ClassNotFoundException, IOException, Km_no_valido, Marca_no_valida, Modelo_no_valido, Color_no_valido, Autonomia_no_valida, Recarga_no_valida, Plazas_no_validas, Tipo_no_valido, Codigo_no_valido, Descripcion_no_valida, Recargo_no_valido, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, SQLException {
 		// TODO Auto-generated method stub
-
 		
 		Empresa empresa=new Empresa();
 		empresa=Deserializar.recoger_datos(empresa);
@@ -38,7 +37,7 @@ public class Principal {
 					
 					switch(paso11) {
 						case "1":
-							interfazUsuario.Alta.darAltaOficina(empresa);
+							//interfazUsuario.Alta.darAltaOficina(empresa);
 							break;
 						
 					}

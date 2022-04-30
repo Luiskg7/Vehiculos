@@ -259,47 +259,58 @@ public class Alta implements Serializable{
 		
 	
 	}
-	
-	public static void darAltaOficina(Empresa empresa) throws Codigo_no_valido, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, IOException {
-		ArrayList<String> oficina=new ArrayList<String>();
-		
-		try {
-			System.out.println("Introduzca el código de la oficina a crear:");
-			String codigo= lector.nextLine();
-			clases.Oficina.validaCodigo(codigo);
-			oficina.add(codigo);
-		}catch (Codigo_no_valido e) {
-			
-		}
-		
-		System.out.println("Introduzca la descripción de la oficina");
-		String descripcion=lector.nextLine();
-		oficina.add(descripcion);
-		
-		System.out.println("Introduzca la provincia de la oficina");
-		String provincia=lector.nextLine();
-		oficina.add(provincia);
-		
-		System.out.println("Introduzca la localidad de la oficina");
-		String localidad=lector.nextLine();
-		oficina.add(localidad);
-		
-		try {
-			System.out.println("¿Esta oficina dispone de aeropuerto? Introduzca Y/N");
-			String aeropuerto=lector.nextLine();
-			clases.Oficina.esAeropuerto(aeropuerto);
-			oficina.add(aeropuerto);
-		}catch(Opcion_no_valida e) {
-			
-		}
-		
-		Oficina o=new Oficina(oficina.get(0),oficina.get(1),oficina.get(3),oficina.get(2),oficina.get(4));
-		empresa.añadeOficina(0,o);
-		serializacion.Serializar.registrar_datos(empresa);
-			
-		
-	}
-	
-	
-	
 }
+	
+	//public static void darAltaOficina(Empresa empresa) throws Codigo_no_valido, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, IOException {
+		//ArrayList oficina=new ArrayList();
+		
+		//try {
+		//	System.out.println("Introduzca el código de la oficina a crear:");
+		//	String codigo= lector.nextLine();
+		//	clases.Oficina.validaCodigo(codigo);
+		//	oficina.add(codigo);
+		//}catch (Codigo_no_valido e) {
+			
+		//}
+		
+		//System.out.println("Introduzca la descripción de la oficina");
+		//String descripcion=lector.nextLine();
+		//oficina.add(descripcion);
+		
+		//System.out.println("Introduzca la provincia de la oficina");
+		//String provincia=lector.nextLine();
+		//oficina.add(provincia);
+		
+		//System.out.println("Introduzca la localidad de la oficina");
+		//String localidad=lector.nextLine();
+		//oficina.add(localidad);
+		
+		//try {
+		//	System.out.println("¿Esta oficina dispone de aeropuerto? Introduzca Y/N");
+		//	String aeropuerto;
+		//	boolean valido=true;
+		//	boolean aero=false;
+		//	while (valido==false) {
+		//		aeropuerto=lector.nextLine();
+		//		if (aeropuerto=="Y") {
+		//			aero=true;
+		//		}else if(aeropuerto!="N") {
+		//			System.out.println("Opcion introducida no válida, debe de ser Y/N");
+		//		}
+		//	}
+			
+			//oficina.add(aero);
+		//}catch(Opcion_no_valida e) {
+			
+		//}
+		
+		//Oficina o=new Oficina(oficina.get(0),oficina.get(1),oficina.get(3),oficina.get(2),oficina.get(4));
+		//empresa.añadeOficina(0,o);
+		//serializacion.Serializar.registrar_datos(empresa);
+			
+		
+	//}
+	
+	
+	
+//}
