@@ -45,7 +45,9 @@ public class VentanaOficinas extends JFrame {
 	private JTextField textLocalidad;
 	private JButton btnIntroducir;
 	private JComboBox cbProvincia;
-	private int existe=0;
+	private int existe=0; //variable para ver si la oficina existe o no para crear una nueva o modificar la existente
+	private String codigo;
+	private JCheckBox chckbxAeropuerto;
 	
 	
 
@@ -130,7 +132,7 @@ public class VentanaOficinas extends JFrame {
 		contentPane.add(textLocalidad);
 		textLocalidad.setColumns(10);
 		
-		JCheckBox chckbxAeropuerto = new JCheckBox("");
+		chckbxAeropuerto = new JCheckBox("");
 		chckbxAeropuerto.setEnabled(false);
 		chckbxAeropuerto.setBounds(97, 138, 21, 21);
 		contentPane.add(chckbxAeropuerto);
@@ -142,14 +144,18 @@ public class VentanaOficinas extends JFrame {
 				String descripcion=textDescripcion.getText();
 				String provincia=(String) cbProvincia.getSelectedItem();
 				String localidad=textLocalidad.getText();
-				boolean aeropuerto=chckbxAeropuerto.getAutoscrolls();
+				boolean aeropuerto=chckbxAeropuerto.isSelected();
 				
 				try {
 					Oficina.validaDescripcion(descripcion);
 					Oficina.validaProvincia(provincia);
 					Oficina.validaLocalidad(localidad);
+					if(existe==1) {
+						OficinaBD.modificaOficina(codigo, descripcion, provincia, localidad, aeropuerto);
+					}else {
+						OficinaBD.añadeOficina(textCodigo.getText(), descripcion, provincia, localidad, aeropuerto);
+					}
 					
-					OficinaBD.añadeOficina(textCodigo.getText(), descripcion, provincia, localidad, aeropuerto);
 					
 					limpiaTexto(contentPane);
 					desactivaFormulario(contentPane);
@@ -191,7 +197,7 @@ public class VentanaOficinas extends JFrame {
 						limpiaTexto(contentPane);
 						desactivaFormulario(contentPane);
 						textCodigo.setEnabled(true);
-						btnIntroducir.setEnabled(true);
+						
 					}
 					
 				} catch (SQLException e1) {
@@ -222,7 +228,7 @@ public class VentanaOficinas extends JFrame {
 		btnIntroducir = new JButton("Introducir");
 		btnIntroducir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String codigo=textCodigo.getText();
+				codigo=textCodigo.getText();
 				Oficina oficina=null;
 				try {
 					oficina = OficinaBD.listaOficina(codigo); //guardamos el resultado de buscar la oficina a través del código

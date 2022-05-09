@@ -301,8 +301,23 @@ public class Oficina implements Serializable{
 	
 	@Override
 	public String toString() {
-		return descripcion+" - "+codigo;
+		return descripcion;
 	}
+	
+	@Override
+	public boolean equals(Object oficina) {
+		boolean igual=false;
+		if (oficina!=null) {
+			Oficina of=(Oficina) oficina;
+			if (of.codigo.equals(this.codigo)) {
+				igual=true;
+			}
+		}
+		
+		
+		return igual;
+	}
+	
 	
 
 }

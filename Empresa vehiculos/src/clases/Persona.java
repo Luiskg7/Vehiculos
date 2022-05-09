@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.GregorianCalendar;
 
 import exceptions.*;
@@ -18,6 +19,7 @@ abstract public class Persona implements Serializable{
 	protected String ape2;
 	protected String dni;
 	protected GregorianCalendar fecha_nac;
+	protected Date fecha_nac2;
 	
 	
 	//Getters and Setters
@@ -26,47 +28,40 @@ abstract public class Persona implements Serializable{
 		return nombre;
 	}
 	public void setNombre(String nombre) throws Longitud_no_valida {
-		if (nombre.length()>=2 && nombre.length()<=25){
-			this.nombre = nombre;
-		}else {
-			throw new Longitud_no_valida();
-		}
+		validaNombre(nombre);
+		this.nombre=nombre;
 	}
 	public String getApe1() {
 		return ape1;
 	}
 	public void setApe1(String ape1) throws Longitud_no_valida {
-		if (ape1.length()>=3 && ape1.length()<=25) {
-			this.ape1 = ape1;
-		}else {
-			throw new Longitud_no_valida();
-		}
+		validaApe(ape1);
+		this.ape1=ape1;
 	}
 	public String getApe2() {
 		return ape2;
 	}
 	public void setApe2(String ape2) throws Longitud_no_valida {
-		if (ape2.length()>=3 && ape2.length()<=25) {
-			this.ape2 = ape2;
-		}else {
-			throw new Longitud_no_valida();
-		}
+		validaApe(ape2);
+		this.ape2=ape2;
 	}
 	public String getDni() {
 		return dni;
 	}
 	public void setDni(String dni) throws Dni_no_valido {
-		if (validaDNI(dni)) {
 		this.dni = dni;
-		}else {
-			throw new Dni_no_valido();
-		}
 	}
 	public GregorianCalendar getFecha_nac() {
 		return fecha_nac;
 	}
+	public Date getFecha_nac2() {
+		return fecha_nac2;
+	}
 	public void setFecha_nac(GregorianCalendar fecha_nac) {
 		this.fecha_nac = fecha_nac;
+	}
+	public void setFecha_nac(Date fecha_nac2) {
+		this.fecha_nac2 = fecha_nac2;
 	}
 	//Constructores
 	public Persona(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac) throws Longitud_no_valida, Dni_no_valido {
@@ -83,10 +78,16 @@ abstract public class Persona implements Serializable{
 		setDni(dni);
 		setFecha_nac(fecha_nac);
 	}
+	public Persona(String nombre, String ape1, String ape2, String dni,Date fecha_nac) throws Longitud_no_valida, Dni_no_valido {
+		setNombre(nombre);
+		setApe1(ape1);
+		setApe2(ape2);
+		setDni(dni);
+		setFecha_nac(fecha_nac);
+	}
 	
 	
-	
-	public static boolean validaDNI(String eldni)
+	public static void validaDNI(String eldni) throws Dni_no_valido
 	{
 		boolean valido=false;
 		String letra;
@@ -180,7 +181,21 @@ abstract public class Persona implements Serializable{
 				valido=false;
 			}
 		}
-		return valido;
+		if(!valido) {
+			throw new Dni_no_valido();
+		}
+	}
+	
+	public static void validaNombre(String nombre) throws Longitud_no_valida {
+		if (!((nombre.length()>=2) && nombre.length()<=25)){
+			throw new Longitud_no_valida();
+		}
+	}
+	
+	public static void validaApe (String ape) throws Longitud_no_valida {
+		if (!(ape.length()>=3 && ape.length()<=25)||(ape=="")) {
+			throw new Longitud_no_valida();
+		}
 	}
 	
 }

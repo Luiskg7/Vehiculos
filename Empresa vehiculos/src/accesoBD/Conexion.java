@@ -46,4 +46,11 @@ public class Conexion {
 		return resultado;
 	}
 
+	public static void desactivarFK() throws SQLException {
+		PreparedStatement ps=Conexion.conexion.prepareStatement("SET FOREIGN_KEY_CHECKS = 0");
+	}
+	
+	public static void activarFK() throws SQLException {
+		PreparedStatement ps=Conexion.conexion.prepareStatement("SET FOREIGN_KEY_CHECKS = 1");
+	}
 }

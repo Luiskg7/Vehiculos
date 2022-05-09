@@ -60,7 +60,6 @@ public class OficinaBD {
 		ResultSet resultadoSql=null;
 		Oficina oficina=null;
 		boolean existe=false; //saber si el código está en la base de datos
-		boolean valido=true; //comprobar si el código introducido es válido en el caso de ser uno nuevo
 		try {
 			PreparedStatement ps=Conexion.conexion.prepareStatement("SELECT * FROM oficina where codigo=?");
 			ps.setString(1, codigo);
@@ -113,6 +112,37 @@ public class OficinaBD {
 		
 		ps.executeUpdate();
 		
+	}
+	public static void modificaOficina(String codigo,String descripcion,String provincia,String localidad,boolean aeropuerto) throws SQLException {
+		PreparedStatement ps=Conexion.conexion.prepareStatement("update oficina set descripcion=?, provincia=?, localidad=?, aeropuerto=? where codigo=?");
+		ps.setString(1, descripcion);
+		ps.setString(2, provincia);
+		ps.setString(3, localidad);
+		ps.setBoolean(4, aeropuerto);
+		ps.setString(5, codigo);
+		ps.executeUpdate();
+	}
+	public static Oficina listaOficinaDesc(String descripcion) throws Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
+		ResultSet resultadoSql=null;
+		Oficina oficina=null;
+		boolean existe=false; //saber si el código está en la base de datos
+		try {
+			PreparedStatement ps=Conexion.conexion.prepareStatement("SELECT * FROM oficina where descripcion=?");
+			ps.setString(1, descripcion);
+			resultadoSql=ps.executeQuery();
+			while (resultadoSql.next()) {
+				existe=true; //si entra en el bucle, quiere decir que si existe el codigo
+				oficina=new Oficina(resultadoSql.getString("codigo"),resultadoSql.getString("descripcion"),resultadoSql.getString("localidad"),resultadoSql.getString("provincia"),resultadoSql.getBoolean("aeropuerto"));
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return oficina;
 	}
 	
 	

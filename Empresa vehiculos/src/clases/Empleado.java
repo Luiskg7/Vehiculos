@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.GregorianCalendar;
 
 import exceptions.Dni_no_valido;
@@ -14,19 +15,26 @@ public class Empleado extends Persona implements Serializable{
 	private static final long serialVersionUID = 1L;
 	//propiedades
 	private GregorianCalendar fecha_alta;
-	private Oficina oficina_trab;
+	private Date fecha_alta2;
+	private String oficina_trab;
 	
 	//Getters and Setters
 	public GregorianCalendar getFecha_alta() {
 		return fecha_alta;
 	}
+	public Date getFecha_alta2() {
+		return fecha_alta2;
+	}
 	private void setFecha_alta(GregorianCalendar fecha_alta) {
 		this.fecha_alta = fecha_alta;
 	}
-	public Oficina getOficina_trab() {
+	private void setFecha_alta(Date fecha_alta2) {
+		this.fecha_alta2 = fecha_alta2;
+	}
+	public String getOficina_trab() {
 		return oficina_trab;
 	}
-	private void setOficina_trab(Oficina oficina_trab) {
+	private void setOficina_trab(String oficina_trab) {
 		this.oficina_trab = oficina_trab;
 	}
 	
@@ -44,7 +52,14 @@ public class Empleado extends Persona implements Serializable{
 	 * @throws Dni_no_valido
 	 */
 	public Empleado(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac, GregorianCalendar fecha_alta,
-			Oficina oficina_trab) throws Longitud_no_valida, Dni_no_valido {
+			String oficina_trab) throws Longitud_no_valida, Dni_no_valido {
+		super(nombre, ape1, ape2, dni,fecha_nac);
+		setFecha_alta(fecha_alta);
+		setOficina_trab(oficina_trab);
+	}
+	
+	public Empleado(String nombre, String ape1, String ape2, String dni,Date fecha_nac, Date fecha_alta,
+			String oficina_trab) throws Longitud_no_valida, Dni_no_valido {
 		super(nombre, ape1, ape2, dni,fecha_nac);
 		setFecha_alta(fecha_alta);
 		setOficina_trab(oficina_trab);
