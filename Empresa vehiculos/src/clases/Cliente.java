@@ -55,9 +55,11 @@ public class Cliente extends Persona implements Serializable{
 	 * @throws Longitud_no_valida 
 	 * @throws Tarjeta_no_valida
 	 * @throws Dni_no_valido 
+	 * @throws Ape2_no_valido 
+	 * @throws Ape1_no_valido 
 	 */
 	//Constructores
-	public Cliente(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac, String licencia, String tarjeta) throws Carnet_no_valido, Longitud_no_valida, Tarjeta_no_valida, Dni_no_valido {
+	public Cliente(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac, String licencia, String tarjeta) throws Carnet_no_valido, Longitud_no_valida, Tarjeta_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
 		super(nombre, ape1, ape2, dni,fecha_nac);
 		setLicencia(licencia);
 		setTarjeta(tarjeta);

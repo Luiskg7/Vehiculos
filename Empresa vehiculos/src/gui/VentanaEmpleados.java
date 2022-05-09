@@ -1,10 +1,11 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -19,13 +20,7 @@ import accesoBD.OficinaBD;
 import clases.Empleado;
 import clases.Oficina;
 import clases.Persona;
-import exceptions.Codigo_no_valido;
-import exceptions.Descripcion_no_valida;
-import exceptions.Dni_no_valido;
-import exceptions.Localidad_no_valida;
-import exceptions.Longitud_no_valida;
-import exceptions.Opcion_no_valida;
-import exceptions.Provincia_no_valida;
+import exceptions.*;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -41,7 +36,7 @@ import java.awt.event.ActionEvent;
 public class VentanaEmpleados extends JFrame {
 
 	private JPanel contentPane;
-	private int existe;
+	private int existe=0;
 	private JButton btnIntroducir;
 	private JTextField textDni;
 
@@ -209,25 +204,34 @@ public class VentanaEmpleados extends JFrame {
 				Date fecha_nac=(Date) calendarNac.getDate();
 				Date fecha_alta=(Date) calendarAlta.getDate();
 				
-			
 				try {
 					Persona.validaNombre(nombre);
-				} catch (Longitud_no_valida e2) {
+					Persona.validaApe1(ape1);
+					Persona.validaApe2(ape2);
+					
+					if(existe==1) {
+						EmpleadoBD.modificaEmpleado(dni, nombre, ape1, ape2, oficina, fecha_nac, fecha_alta);
+					}else {
+						EmpleadoBD.añadeEmpleado(dni, nombre, ape1, ape2, oficina, fecha_nac, fecha_alta);
+					}
+					
+					VentanaOficinas.limpiaTexto(contentPane);
+					VentanaOficinas.desactivaFormulario(contentPane);
+					textDni.setEnabled(true);
+					btnIntroducir.setEnabled(true);
+				}catch (Longitud_no_valida e2) {
 					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-				try {
-					Persona.validaApe(ape1);
-				} catch (Longitud_no_valida e1) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Longitud del nombre del empleado no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				}catch (Ape1_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Longitud del primer apellido empleado no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				}catch (Ape2_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Longitud del segundo apellido del empleado no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (SQLException e1) {
 					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Ocurrió un error durante la operación","ERROR",JOptionPane.ERROR_MESSAGE);
 				}
-				try {
-					Persona.validaApe(ape2);
-				} catch (Longitud_no_valida e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				
+				
 					
 				
 			}
@@ -261,14 +265,13 @@ public class VentanaEmpleados extends JFrame {
 						
 						
 					}
-				} catch (Longitud_no_valida | Dni_no_valido | Descripcion_no_valida | Localidad_no_valida | Provincia_no_valida | Opcion_no_valida | Codigo_no_valido e1) {
+				} catch (Longitud_no_valida | Dni_no_valido | Descripcion_no_valida | Localidad_no_valida | Provincia_no_valida | Opcion_no_valida | Codigo_no_valido  | Ape1_no_valido |Ape2_no_valido e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} 
-				
-						
-				}
+							
 			}
+		}
 		);
 				
 			

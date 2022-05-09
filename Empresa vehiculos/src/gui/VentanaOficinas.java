@@ -162,10 +162,8 @@ public class VentanaOficinas extends JFrame {
 					textCodigo.setEnabled(true);
 					btnIntroducir.setEnabled(true);
 				}catch(SQLException a) {
-					a.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Ocurrió un error durante la operación","ERROR",JOptionPane.ERROR_MESSAGE);
 				} catch (Descripcion_no_valida e1) {
-					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, "Longitud de la descripción introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
 				} catch (Localidad_no_valida e1) {
 					JOptionPane.showMessageDialog(null, "Longitud de la localidad introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);

@@ -34,15 +34,15 @@ abstract public class Persona implements Serializable{
 	public String getApe1() {
 		return ape1;
 	}
-	public void setApe1(String ape1) throws Longitud_no_valida {
-		validaApe(ape1);
+	public void setApe1(String ape1) throws Ape1_no_valido {
+		validaApe1(ape1);
 		this.ape1=ape1;
 	}
 	public String getApe2() {
 		return ape2;
 	}
-	public void setApe2(String ape2) throws Longitud_no_valida {
-		validaApe(ape2);
+	public void setApe2(String ape2) throws Ape2_no_valido {
+		validaApe2(ape2);
 		this.ape2=ape2;
 	}
 	public String getDni() {
@@ -64,21 +64,21 @@ abstract public class Persona implements Serializable{
 		this.fecha_nac2 = fecha_nac2;
 	}
 	//Constructores
-	public Persona(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac) throws Longitud_no_valida, Dni_no_valido {
+	public Persona(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
 		setNombre(nombre);
 		setApe1(ape1);
 		setApe2(ape2);
 		setDni(dni);
 		setFecha_nac(fecha_nac);
 	}
-	public Persona(String nombre, String ape1, String dni,GregorianCalendar fecha_nac) throws Dni_no_valido, Longitud_no_valida {
+	public Persona(String nombre, String ape1, String dni,GregorianCalendar fecha_nac) throws Dni_no_valido, Longitud_no_valida, Ape1_no_valido, Ape2_no_valido {
 		setNombre(nombre);
 		setApe1(ape1);
 		setApe2(null);
 		setDni(dni);
 		setFecha_nac(fecha_nac);
 	}
-	public Persona(String nombre, String ape1, String ape2, String dni,Date fecha_nac) throws Longitud_no_valida, Dni_no_valido {
+	public Persona(String nombre, String ape1, String ape2, String dni,Date fecha_nac) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
 		setNombre(nombre);
 		setApe1(ape1);
 		setApe2(ape2);
@@ -192,9 +192,15 @@ abstract public class Persona implements Serializable{
 		}
 	}
 	
-	public static void validaApe (String ape) throws Longitud_no_valida {
-		if (!(ape.length()>=3 && ape.length()<=25)||(ape=="")) {
-			throw new Longitud_no_valida();
+	public static void validaApe1 (String ape) throws Ape1_no_valido {
+		if (!(ape.length()>=3 && ape.length()<=25)) {
+			throw new Ape1_no_valido();
+		}
+	}
+	
+	public static void validaApe2 (String ape) throws Ape2_no_valido {
+		if (!(ape.length()>=3 && ape.length()<=25)||(ape=="")||(ape==null)) {
+			throw new Ape2_no_valido();
 		}
 	}
 	

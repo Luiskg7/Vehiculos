@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.GregorianCalendar;
 
+import exceptions.Ape1_no_valido;
+import exceptions.Ape2_no_valido;
 import exceptions.Dni_no_valido;
 import exceptions.Longitud_no_valida;
 
@@ -50,16 +52,18 @@ public class Empleado extends Persona implements Serializable{
 	 * @param oficina_trab Clase Oficina en la que se encuentra el empleado
 	 * @throws Longitud_no_valida
 	 * @throws Dni_no_valido
+	 * @throws Ape2_no_valido 
+	 * @throws Ape1_no_valido 
 	 */
 	public Empleado(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac, GregorianCalendar fecha_alta,
-			String oficina_trab) throws Longitud_no_valida, Dni_no_valido {
+			String oficina_trab) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
 		super(nombre, ape1, ape2, dni,fecha_nac);
 		setFecha_alta(fecha_alta);
 		setOficina_trab(oficina_trab);
 	}
 	
 	public Empleado(String nombre, String ape1, String ape2, String dni,Date fecha_nac, Date fecha_alta,
-			String oficina_trab) throws Longitud_no_valida, Dni_no_valido {
+			String oficina_trab) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
 		super(nombre, ape1, ape2, dni,fecha_nac);
 		setFecha_alta(fecha_alta);
 		setOficina_trab(oficina_trab);
