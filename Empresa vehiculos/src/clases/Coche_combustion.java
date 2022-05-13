@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.GregorianCalendar;
 
 import exceptions.*;
@@ -75,6 +76,15 @@ public class Coche_combustion extends Combustion implements Serializable{
 		setTipo(tipo);
 	}
 	
+	public Coche_combustion(String matricula, String marca, String modelo, String color, Date fecha_adq2,
+			double kms, Categoria categoria, Oficina ubicacion, double consumo, int potencia, String emisiones,
+			int plazas, String tipo) throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido,
+			Color_no_valido, Emision_no_valida, Potencia_no_valida, Consumo_no_valido, Plazas_no_validas, Tipo_no_valido {
+		super(matricula, marca, modelo, color, fecha_adq2, kms, categoria, ubicacion, consumo, potencia, emisiones);
+		setPlazas(plazas);
+		setTipo(tipo);
+	}
+	
 	//Metodos
 	/**
 	 * Metodo que valida que el tipo de coche que se ha introducido es correcto
@@ -84,7 +94,7 @@ public class Coche_combustion extends Combustion implements Serializable{
 	public boolean validaTipo (String tipo) {
 		boolean fin=true;
 		
-		if (tipo=="DEPORTIVO" || tipo=="FAMILIAR" || tipo=="4x4") {
+		if (tipo.equals("DEPORTIVO") || tipo.equals("FAMILIAR") || tipo.equals("4x4")) {
 			fin=true;
 		}else {
 			fin=false;

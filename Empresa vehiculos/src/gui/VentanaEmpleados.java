@@ -266,8 +266,7 @@ public class VentanaEmpleados extends JFrame {
 						
 					}
 				} catch (Longitud_no_valida | Dni_no_valido | Descripcion_no_valida | Localidad_no_valida | Provincia_no_valida | Opcion_no_valida | Codigo_no_valido  | Ape1_no_valido |Ape2_no_valido e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "El DNI introducido no es válido","ERROR",JOptionPane.ERROR_MESSAGE);
 				} 
 							
 			}

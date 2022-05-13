@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -18,6 +19,7 @@ public abstract class Vehiculo implements Serializable{
 	private String modelo;
 	private String color;
 	private GregorianCalendar fecha_adq;
+	private Date fecha_adq2;
 	private double kms;
 	private Categoria categoria;
 	private Oficina ubicacion;
@@ -60,9 +62,15 @@ public abstract class Vehiculo implements Serializable{
 	public GregorianCalendar getFecha_adq() {
 		return fecha_adq;
 	}
+	public Date getFecha_adq2() {
+		return fecha_adq2;
+	}
 	private void setFecha_adq(GregorianCalendar fecha_adq) {
 		this.fecha_adq = fecha_adq;
 	} //TODO ver si la fecha es incorrecta o no
+	private void setFecha_adq(Date fecha_adq2) {
+		this.fecha_adq2=fecha_adq2;
+	}
 	public double getKms() {
 		return kms;
 	}
@@ -93,6 +101,19 @@ public abstract class Vehiculo implements Serializable{
 		setModelo(modelo);
 		setColor(color);
 		setFecha_adq(fecha_adq);
+		setKms(kms);
+		setCategoria(categoria);
+		setUbicacion(ubicacion);
+	}
+	
+	public Vehiculo(String matricula, String marca, String modelo, String color, Date fecha_adq2,
+			double kms, Categoria categoria, Oficina ubicacion) throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido, Color_no_valido {
+		super();
+		setMatricula(matricula);
+		setMarca(marca);
+		setModelo(modelo);
+		setColor(color);
+		setFecha_adq(fecha_adq2);
 		setKms(kms);
 		setCategoria(categoria);
 		setUbicacion(ubicacion);
@@ -148,18 +169,20 @@ public abstract class Vehiculo implements Serializable{
 			throw new Km_no_valido("Debe ser superior a 0");
 		}
 	}
+	
 	/**
 	 * Compara dos vehiculos a través de su matricula, si son los mismos vehiculos devolverá un 0, si son distintos devolverá un 1
 	 */
-	public int equals(Vehiculo a) {
-		int resultado=0;
-		if(this.matricula==a.matricula) {
-			resultado=0;
-		}else{
-			resultado=1;
+	public boolean equals(Vehiculo a) {
+		boolean igual=false;
+		if (a!=null) {
+			if (a.matricula.equals(this.matricula)) {
+				igual=true;
+			}
 		}
-		
-		return resultado;
+		return igual;
 	}
+	
+	
 
 }

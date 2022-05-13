@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.GregorianCalendar;
 
 import exceptions.*;
@@ -71,6 +72,14 @@ import exceptions.*;
 			double kms, Categoria categoria, Oficina ubicacion, double autonomia, int recarga, int plazas,
 			String tipo) throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido, Color_no_valido, Autonomia_no_valida, Recarga_no_valida, Plazas_no_validas, Tipo_no_valido {
 		super(matricula, marca, modelo, color, fecha_adq, kms, categoria, ubicacion, autonomia, recarga);
+		setPlazas(plazas);
+		setTipo(tipo);
+	}
+	
+	public Coche_electrico(String matricula, String marca, String modelo, String color, Date fecha_adq2,
+			double kms, Categoria categoria, Oficina ubicacion, double autonomia, int recarga, int plazas,
+			String tipo) throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido, Color_no_valido, Autonomia_no_valida, Recarga_no_valida, Plazas_no_validas, Tipo_no_valido {
+		super(matricula, marca, modelo, color, fecha_adq2, kms, categoria, ubicacion, autonomia, recarga);
 		setPlazas(plazas);
 		setTipo(tipo);
 	}

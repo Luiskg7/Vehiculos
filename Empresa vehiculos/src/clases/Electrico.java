@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.GregorianCalendar;
 
 import exceptions.*;
@@ -45,6 +46,13 @@ abstract public class Electrico extends Vehiculo implements Serializable{
 	public Electrico(String matricula, String marca, String modelo, String color, GregorianCalendar fecha_adq,
 			double kms, Categoria categoria, Oficina ubicacion, double autonomia, int recarga) throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido, Color_no_valido, Autonomia_no_valida, Recarga_no_valida {
 		super(matricula, marca, modelo, color, fecha_adq, kms, categoria, ubicacion);
+		setAutonomia(autonomia);
+		setRecarga(recarga);
+	}
+	
+	public Electrico(String matricula, String marca, String modelo, String color, Date fecha_adq2,
+			double kms, Categoria categoria, Oficina ubicacion, double autonomia, int recarga) throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido, Color_no_valido, Autonomia_no_valida, Recarga_no_valida {
+		super(matricula, marca, modelo, color, fecha_adq2, kms, categoria, ubicacion);
 		setAutonomia(autonomia);
 		setRecarga(recarga);
 	}

@@ -90,13 +90,14 @@ abstract public class Persona implements Serializable{
 	public static void validaDNI(String eldni) throws Dni_no_valido
 	{
 		boolean valido=false;
-		String letra;
-		String numerostring=eldni.substring(0, 8);
-		int numero=Integer.parseInt(numerostring);
-		String letra_correcta=null;
+		
 		
 		if(eldni.length()==9)
 		{
+			String letra;
+			String numerostring=eldni.substring(0, 8);
+			int numero=Integer.parseInt(numerostring);
+			String letra_correcta=null;
 			letra=eldni.substring(8);
 			numero=numero%23;
 			

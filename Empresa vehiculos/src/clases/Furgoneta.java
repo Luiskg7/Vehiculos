@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.GregorianCalendar;
 
 import exceptions.*;
@@ -76,6 +77,16 @@ public class Furgoneta extends Combustion implements Serializable{
 		setCarga(carga);
 		setCarnet(carnet);
 	}
+	
+	public Furgoneta(String matricula, String marca, String modelo, String color, Date fecha_adq2,
+			double kms, Categoria categoria, Oficina ubicacion, double consumo, int potencia, String emisiones,
+			double carga, String carnet) throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido,
+			Color_no_valido, Emision_no_valida, Potencia_no_valida, Consumo_no_valido, Carga_no_valida, Carnet_no_valido {
+		super(matricula, marca, modelo, color, fecha_adq2, kms, categoria, ubicacion, consumo, potencia, emisiones);
+		setCarga(carga);
+		setCarnet(carnet);
+	}
+	
 	
 	
 

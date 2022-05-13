@@ -22,31 +22,22 @@ public class Categoria implements Serializable{
 		return codigo;
 	}
 	private void setCodigo(String codigo) throws Codigo_no_valido {
-		if (codigo.length()==1) {
-			this.codigo = codigo;
-		}else {
-			throw new Codigo_no_valido();
-		}
+		validaCodigo(codigo);
+		this.codigo=codigo;
 	}
 	public String getDescripcion() {
 		return descripcion;
 	}
 	private void setDescripcion(String descripcion) throws Descripcion_no_valida {
-		if (descripcion.length()>0 && descripcion.length()<=25) {
-			this.descripcion = descripcion;
-		}else {
-			throw new Descripcion_no_valida("Número de caracteres introducido no válido");
-		}
+		validaDescripcion(descripcion);
+		this.descripcion=descripcion;
 	}
 	public int getRecargo() {
 		return recargo;
 	}
 	private void setRecargo(int recargo) throws Recargo_no_valido {
-		if (recargo>0 && recargo<=100) {
-			this.recargo = recargo;
-		}else {
-			throw new Recargo_no_valido();
-		}
+		validaRecargo(recargo);
+		this.recargo=recargo;
 		
 	}
 	
@@ -82,7 +73,31 @@ public class Categoria implements Serializable{
 			throw new Codigo_no_valido();
 		}
 	}
+	public static void validaDescripcion(String descripcion) throws Descripcion_no_valida {
+		if (!(descripcion.length()>2 && descripcion.length()<=25)) {
+			throw new Descripcion_no_valida("Número de caracteres introducido no válido");
+		}
+	}
+	public static void validaRecargo (int recargo) throws Recargo_no_valido {
+		if (!(recargo>0 && recargo<=100)) {
+			throw new Recargo_no_valido();
+		}
+	}
 	
+	public boolean equals(Object a) {
+		boolean igual=false;
+		if (a!=null) {
+			Categoria cat=(Categoria)a;
+			if (cat.codigo.equals(this.codigo)) {
+				igual=true;
+			}
+		}
+		return igual;
+	}
 	
+	@Override
+	public String toString() {
+		return descripcion;
+	}
 
 }

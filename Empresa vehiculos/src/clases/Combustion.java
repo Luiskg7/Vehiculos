@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.GregorianCalendar;
 
 import exceptions.*;
@@ -64,6 +65,15 @@ abstract public class Combustion extends Vehiculo implements Serializable{
 		setEmisiones(emisiones);
 	}
 	
+	public Combustion(String matricula, String marca, String modelo, String color, Date fecha_adq2,
+			double kms, Categoria categoria, Oficina ubicacion, double consumo, int potencia, String emisiones)
+			throws Km_no_valido, Matricula_no_valida, Marca_no_valida, Modelo_no_valido, Color_no_valido, Emision_no_valida, Potencia_no_valida, Consumo_no_valido {
+		super(matricula, marca, modelo, color, fecha_adq2, kms, categoria, ubicacion);
+		setConsumo(consumo);
+		setPotencia(potencia);
+		setEmisiones(emisiones);
+	}
+	
 	//Métodos
 	
 	/**
@@ -74,7 +84,7 @@ abstract public class Combustion extends Vehiculo implements Serializable{
 	public boolean validaEmision(String emision) {
 		boolean fin=true;
 		
-		if(emision.toUpperCase()=="A" || emision.toUpperCase()=="B" || emision.toUpperCase()=="C") {
+		if(emision.toUpperCase().equals("A") || emision.toUpperCase().equals("B") || emision.toUpperCase().equals("C")) {
 			fin=true;
 		}else {
 			fin=false;
