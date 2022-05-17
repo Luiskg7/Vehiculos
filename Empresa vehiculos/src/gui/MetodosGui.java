@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Component;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -25,6 +26,28 @@ public class MetodosGui {
 			if(c instanceof JPanel) {
 				desactivaFormulario((JPanel)c);
 			}
+			if(c instanceof JTabbedPane) {
+				desactivaFormulario((JTabbedPane)c);
+			}
+			
+		}
+		
+	}
+	
+	public static void desactivaFormulario (JTabbedPane p)
+	{
+		for (Component c:p.getComponents())
+		{
+			if(!(c instanceof JLabel)) {
+				c.setEnabled(false);
+			}
+			//ver si el componente es un panel para recorrerlo
+			if(c instanceof JPanel) {
+				desactivaFormulario((JPanel)c);
+			}
+			if(c instanceof JTabbedPane) {
+				desactivaFormulario((JTabbedPane)c);
+			}
 			
 		}
 		
@@ -39,7 +62,29 @@ public class MetodosGui {
 			}
 			//ver si el componente es otro panel para recorrerlo
 			if(c instanceof JPanel) {
-				desactivaFormulario((JPanel)c);
+				activaFormulario((JPanel)c);
+			}
+			if(c instanceof JTabbedPane) {
+				activaFormulario((JTabbedPane)c);
+			}
+			
+		}
+		
+	}
+	
+	public static void activaFormulario (JTabbedPane p)
+	{
+		for (Component c:p.getComponents())
+		{
+			if(!(c instanceof JLabel)) {
+				c.setEnabled(true);
+			}
+			//ver si el componente es un panel para recorrerlo
+			if(c instanceof JPanel) {
+				activaFormulario((JPanel)c);
+			}
+			if(c instanceof JTabbedPane) {
+				activaFormulario((JTabbedPane)c);
 			}
 			
 		}
@@ -60,6 +105,27 @@ public class MetodosGui {
 			
 			if(c instanceof JComboBox) {
 				((JComboBox) c).setSelectedIndex(-1);
+			}
+		}
+	}
+	
+	public static void limpiaTexto(JTabbedPane p)
+	{
+		for (Component c:p.getComponents())
+		{
+			if(c instanceof JTextField) {
+				 ((JTextField) c).setText("");
+			}
+			
+			if(c instanceof JCheckBox) {
+				((JCheckBox) c).setSelected(false);
+			}
+			
+			if(c instanceof JComboBox) {
+				((JComboBox) c).setSelectedIndex(-1);
+			}
+			if(c instanceof JPanel) {
+				limpiaTexto((JPanel) c);
 			}
 		}
 	}

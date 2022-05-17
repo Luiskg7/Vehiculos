@@ -2,6 +2,7 @@ package accesoBD;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import clases.*;
 
@@ -105,6 +106,14 @@ public class VehiculoBD {
 			e.printStackTrace();
 		}
 		return vehiculo;
+	}
+	
+	public static void eliminaVehiculo(String matricula) throws SQLException {
+		
+		PreparedStatement ps=Conexion.conexion.prepareStatement("DELETE FROM vehiculos WHERE matricula=?");
+		ps.setString(1, matricula);
+		ps.executeQuery();
+		
 	}
 
 }
