@@ -99,4 +99,10 @@ public class EmpleadoBD {
 		ps.executeUpdate();
 		
 	}
+	
+	public static void eliminarEmpleado(String dni) throws SQLException {
+		PreparedStatement ps=Conexion.conexion.prepareStatement("delete persona,empleado from persona join empleado on persona_dni=dni where dni=?");
+		ps.setString(1, dni);
+		ps.executeUpdate();
+	}
 }

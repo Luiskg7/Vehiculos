@@ -27,7 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
@@ -72,7 +72,7 @@ public class VentanaEmpleados extends JFrame {
 		JFrame yo=this;
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 765, 445);
+		setBounds(100, 100, 707, 298);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -99,7 +99,7 @@ public class VentanaEmpleados extends JFrame {
 		contentPane.add(lblFecha_Nac);
 		
 		JLabel lblFecha_Alta = new JLabel("Fecha de alta");
-		lblFecha_Alta.setBounds(393, 186, 90, 13);
+		lblFecha_Alta.setBounds(360, 81, 90, 13);
 		contentPane.add(lblFecha_Alta);
 		
 		textDni = new JTextField();
@@ -125,14 +125,16 @@ public class VentanaEmpleados extends JFrame {
 		contentPane.add(textApe2);
 		textApe2.setColumns(10);
 		
-		JCalendar calendarNac = new JCalendar();
+		JDateChooser calendarNac = new JDateChooser();
+		calendarNac.setDateFormatString("yyyy-MM-dd");
 		calendarNac.setEnabled(false);
-		calendarNac.setBounds(488, 35, 223, 139);
+		calendarNac.setBounds(488, 35, 110, 19);
 		contentPane.add(calendarNac);
 		
-		JCalendar calendarAlta = new JCalendar();
+		JDateChooser calendarAlta = new JDateChooser();
+		calendarAlta.setDateFormatString("yyyy-MM-dd");
 		calendarAlta.setEnabled(false);
-		calendarAlta.setBounds(493, 184, 218, 139);
+		calendarAlta.setBounds(488, 81, 110, 19);
 		contentPane.add(calendarAlta);
 		
 		JLabel lblOficina = new JLabel("Oficina de trabajo");
@@ -150,14 +152,14 @@ public class VentanaEmpleados extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaOficinas.desactivaFormulario(contentPane);
-				VentanaOficinas.limpiaTexto(contentPane);
+				MetodosGui.desactivaFormulario(contentPane);
+				MetodosGui.limpiaTexto(contentPane);
 				textDni.setEnabled(true);
 				btnIntroducir.setEnabled(true);
 			}
 		});
 		btnCancelar.setEnabled(false);
-		btnCancelar.setBounds(410, 377, 85, 21);
+		btnCancelar.setBounds(393, 202, 85, 21);
 		contentPane.add(btnCancelar);
 		
 		JButton btnEliminar = new JButton("Eliminar");
@@ -172,13 +174,10 @@ public class VentanaEmpleados extends JFrame {
 					JOptionPane.QUESTION_MESSAGE, null,options,options[1]);
 					
 					if(opc==0) {
-						Conexion.desactivarFK();
-						PreparedStatement ps=Conexion.conexion.prepareStatement("delete persona,empleado from persona join empleado on persona_dni=dni where dni=?");
-						ps.setString(1, dni);
-						ps.executeUpdate();
-						Conexion.activarFK();
-						VentanaOficinas.limpiaTexto(contentPane);
-						VentanaOficinas.desactivaFormulario(contentPane);
+						
+						EmpleadoBD.eliminarEmpleado(dni);
+						MetodosGui.limpiaTexto(contentPane);
+						MetodosGui.desactivaFormulario(contentPane);
 						textDni.setEnabled(true);
 						btnIntroducir.setEnabled(true);
 					}
@@ -190,7 +189,7 @@ public class VentanaEmpleados extends JFrame {
 			}
 		});
 		btnEliminar.setEnabled(false);
-		btnEliminar.setBounds(513, 377, 85, 21);
+		btnEliminar.setBounds(488, 202, 85, 21);
 		contentPane.add(btnEliminar);
 		
 		JButton btnGuardar = new JButton("Guardar");
@@ -215,8 +214,8 @@ public class VentanaEmpleados extends JFrame {
 						EmpleadoBD.añadeEmpleado(dni, nombre, ape1, ape2, oficina, fecha_nac, fecha_alta);
 					}
 					
-					VentanaOficinas.limpiaTexto(contentPane);
-					VentanaOficinas.desactivaFormulario(contentPane);
+					MetodosGui.limpiaTexto(contentPane);
+					MetodosGui.desactivaFormulario(contentPane);
 					textDni.setEnabled(true);
 					btnIntroducir.setEnabled(true);
 				}catch (Longitud_no_valida e2) {
@@ -237,7 +236,7 @@ public class VentanaEmpleados extends JFrame {
 			}
 		});
 		btnGuardar.setEnabled(false);
-		btnGuardar.setBounds(608, 377, 85, 21);
+		btnGuardar.setBounds(583, 202, 85, 21);
 		contentPane.add(btnGuardar);
 		
 		btnIntroducir = new JButton("");
@@ -250,7 +249,7 @@ public class VentanaEmpleados extends JFrame {
 					Persona.validaDNI(dni);
 					empleado = EmpleadoBD.listaEmpleado(dni);
 					
-					VentanaOficinas.activaFormulario(contentPane);
+					MetodosGui.activaFormulario(contentPane);
 					calendarNac.setEnabled(true);
 					calendarAlta.setEnabled(true);
 					textDni.setEnabled(false); //desactivamos el dni para que no se pueda cambiar
@@ -281,8 +280,7 @@ public class VentanaEmpleados extends JFrame {
 		
 		
 		//Colocar el frame en el centro de la pantalla
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+		MetodosGui.centraVentana(yo);
 		
 		
 		

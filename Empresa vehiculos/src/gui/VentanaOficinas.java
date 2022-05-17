@@ -35,6 +35,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 
 public class VentanaOficinas extends JFrame {
@@ -157,8 +158,8 @@ public class VentanaOficinas extends JFrame {
 					}
 					
 					
-					limpiaTexto(contentPane);
-					desactivaFormulario(contentPane);
+					MetodosGui.limpiaTexto(contentPane);
+					MetodosGui.desactivaFormulario(contentPane);
 					textCodigo.setEnabled(true);
 					btnIntroducir.setEnabled(true);
 				}catch(SQLException a) {
@@ -192,8 +193,8 @@ public class VentanaOficinas extends JFrame {
 					
 					if (opc==0) {
 						ps.executeUpdate();//elimina la oficina
-						limpiaTexto(contentPane);
-						desactivaFormulario(contentPane);
+						MetodosGui.limpiaTexto(contentPane);
+						MetodosGui.desactivaFormulario(contentPane);
 						textCodigo.setEnabled(true);
 						
 					}
@@ -211,8 +212,8 @@ public class VentanaOficinas extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				desactivaFormulario(contentPane);
-				limpiaTexto(contentPane);
+				MetodosGui.desactivaFormulario(contentPane);
+				MetodosGui.limpiaTexto(contentPane);
 				textCodigo.setEnabled(true);
 				btnIntroducir.setEnabled(true);
 				
@@ -223,14 +224,15 @@ public class VentanaOficinas extends JFrame {
 		btnCancelar.setBounds(234, 232, 85, 21);
 		contentPane.add(btnCancelar);
 		
-		btnIntroducir = new JButton("Introducir");
+		btnIntroducir = new JButton("");
+		btnIntroducir.setIcon(new ImageIcon(VentanaOficinas.class.getResource("/general/png/16/zoom.png")));
 		btnIntroducir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				codigo=textCodigo.getText();
 				Oficina oficina=null;
 				try {
 					oficina = OficinaBD.listaOficina(codigo); //guardamos el resultado de buscar la oficina a través del código
-					activaFormulario(contentPane);
+					MetodosGui.activaFormulario(contentPane);
 					textCodigo.setEnabled(false); //desactivamos el codigo para que no se pueda cambiar
 					if (oficina!=null) {  //Si existe esa oficina en la bd, se rellenan los demás campos con sus datos
 						existe=1;
@@ -251,63 +253,11 @@ public class VentanaOficinas extends JFrame {
 				
 			}
 		});
-		btnIntroducir.setBounds(203, 42, 106, 21);
+		btnIntroducir.setBounds(203, 42, 29, 21);
 		contentPane.add(btnIntroducir);
 		
-		
-		
 		//Colocar el frame en el centro de la pantalla
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+		MetodosGui.centraVentana(yo);
 	}
 	
-	public static void desactivaFormulario (JPanel p)
-	{
-		for (Component c:p.getComponents())
-		{
-			if(!(c instanceof JLabel)) {
-				c.setEnabled(false);
-			}
-			//ver si el componente es otro panel para recorrerlo
-			if(c instanceof JPanel) {
-				desactivaFormulario((JPanel)c);
-			}
-			
-		}
-		
-	}
-	
-	public static void activaFormulario (JPanel p)
-	{
-		for (Component c:p.getComponents())
-		{
-			if(!(c instanceof JLabel)) {
-				c.setEnabled(true);
-			}
-			//ver si el componente es otro panel para recorrerlo
-			if(c instanceof JPanel) {
-				desactivaFormulario((JPanel)c);
-			}
-			
-		}
-		
-	}
-	
-	public static void limpiaTexto(JPanel p)
-	{
-		for (Component c:p.getComponents())
-		{
-			if(c instanceof JTextField) {
-				 ((JTextField) c).setText("");
-			}
-			
-			if(c instanceof JCheckBox) {
-				((JCheckBox) c).setSelected(false);
-			}
-			
-			if(c instanceof JComboBox) {
-				((JComboBox) c).setSelectedIndex(-1);
-			}
-		}
-	}
 }

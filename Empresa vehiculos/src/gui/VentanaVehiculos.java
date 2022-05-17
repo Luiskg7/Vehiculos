@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 
 import accesoBD.CategoriaBD;
 import accesoBD.Conexion;
@@ -40,6 +40,7 @@ public class VentanaVehiculos extends JFrame {
 	private JTextField textMatricula;
 	private int existe=0;
 	private JButton btnIntroducir;
+	private JFrame yo=this;
 
 	/**
 	 * Launch the application.
@@ -117,8 +118,9 @@ public class VentanaVehiculos extends JFrame {
 		cbColor.setBounds(92, 96, 118, 21);
 		contentPane.add(cbColor);
 		
-		JCalendar calendarAdq = new JCalendar();
-		calendarAdq.setBounds(403, 31, 236, 152);
+		JDateChooser calendarAdq = new JDateChooser();
+		calendarAdq.setDateFormatString("yyyy-MM-dd");
+		calendarAdq.setBounds(373, 31, 97, 16);
 		calendarAdq.setEnabled(false);
 		contentPane.add(calendarAdq);
 		
@@ -164,8 +166,8 @@ public class VentanaVehiculos extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaOficinas.desactivaFormulario(contentPane);
-				VentanaOficinas.limpiaTexto(contentPane);
+				MetodosGui.desactivaFormulario(contentPane);
+				MetodosGui.limpiaTexto(contentPane);
 				textMatricula.setEnabled(true);
 				btnIntroducir.setEnabled(true);
 			}
@@ -184,7 +186,7 @@ public class VentanaVehiculos extends JFrame {
 					Vehiculo.validaMatricula(matricula);
 						
 					vehiculo=VehiculoBD.listaVehiculo(matricula);
-					VentanaOficinas.activaFormulario(contentPane);
+					MetodosGui.activaFormulario(contentPane);
 					textMatricula.setEnabled(false);
 					calendarAdq.setEnabled(true);
 					
@@ -209,7 +211,8 @@ public class VentanaVehiculos extends JFrame {
 		btnIntroducir.setIcon(new ImageIcon(VentanaVehiculos.class.getResource("/general/png/16/zoom.png")));
 		btnIntroducir.setBounds(214, 26, 24, 21);
 		contentPane.add(btnIntroducir);
-		VentanaOficinas.limpiaTexto(contentPane);
+		MetodosGui.limpiaTexto(contentPane);
 		
+		MetodosGui.centraVentana(yo);
 	}
 }

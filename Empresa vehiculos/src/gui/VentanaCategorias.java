@@ -80,8 +80,8 @@ public class VentanaCategorias extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaOficinas.desactivaFormulario(contentPane);
-				VentanaOficinas.limpiaTexto(contentPane);
+				MetodosGui.desactivaFormulario(contentPane);
+				MetodosGui.limpiaTexto(contentPane);
 				textCodigo.setEnabled(true);
 				btnIntroducir.setEnabled(true);
 			}
@@ -103,8 +103,8 @@ public class VentanaCategorias extends JFrame {
 					
 					if(opc==0) {
 						CategoriaBD.eliminaCategoria(codigo);
-						VentanaOficinas.limpiaTexto(contentPane);
-						VentanaOficinas.desactivaFormulario(contentPane);
+						MetodosGui.limpiaTexto(contentPane);
+						MetodosGui.desactivaFormulario(contentPane);
 						textCodigo.setEnabled(true);
 						btnIntroducir.setEnabled(true);
 					}
@@ -133,8 +133,8 @@ public class VentanaCategorias extends JFrame {
 					}else {
 						CategoriaBD.añadeCategoria(codigo, descripcion, recargo);
 					}
-					VentanaOficinas.desactivaFormulario(contentPane);
-					VentanaOficinas.limpiaTexto(contentPane);
+					MetodosGui.desactivaFormulario(contentPane);
+					MetodosGui.limpiaTexto(contentPane);
 					textCodigo.setEnabled(true);
 					btnIntroducir.setEnabled(true);
 				}catch(Descripcion_no_valida e1) {
@@ -177,7 +177,7 @@ public class VentanaCategorias extends JFrame {
 				try {
 					Categoria.validaCodigo(codigo);
 					categoria=CategoriaBD.listaCategoria(codigo);
-					VentanaOficinas.activaFormulario(contentPane);
+					MetodosGui.activaFormulario(contentPane);
 					textCodigo.setEnabled(false);
 					
 					if(categoria!=null) {
@@ -196,7 +196,6 @@ public class VentanaCategorias extends JFrame {
 		contentPane.add(btnIntroducir);
 		
 		//Colocar el frame en el centro de la pantalla
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+		MetodosGui.centraVentana(yo);
 	}
 }
