@@ -96,8 +96,8 @@ import exceptions.*;
 	 */
 	public boolean validaTipo (String tipo) {
 		boolean fin=true;
-		
-		if (tipo=="DEPORTIVO" || tipo=="FAMILIAR" || tipo=="4x4") {
+		tipo=tipo.toUpperCase();
+		if (tipo.toUpperCase().equals("DEPORTIVO") || tipo.equals("FAMILIAR") || tipo.equals("4x4")) {
 			fin=true;
 		}else {
 			fin=false;

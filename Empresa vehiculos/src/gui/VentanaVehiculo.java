@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 
 
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -22,6 +23,7 @@ import exceptions.Matricula_no_valida;
 import exceptions.Opcion_no_valida;
 import exceptions.Provincia_no_valida;
 import exceptions.Recargo_no_valido;
+import listeners.Cancelar_coche_electrico;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -45,16 +47,26 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import com.toedter.calendar.JDateChooser;
 
+import listeners.*;
+
 public class VentanaVehiculo extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField textMatricula;
+	static public JPanel contentPane;
+	static public JFrame yo;
+	static public JTextField textMatricula;
 	private JTextField textModelo;
 	private JTextField textAutonomia;
+	private JTextField textConsumo2;
+	private JTextField textAutonomia2;
+	private JTextField textAutonomia1;
 	private JTextField textConsumo;
 	private JTextField textRecarga;
+	private JTextField textPotencia2;
+	private JTextField textRecarga2;
+	private JTextField textRecarga1;
 	private JTextField textPotencia;
 	private JTextField textPlaza;
+	private JTextField textPlaza2;
 	private JTextField textCarga;
 	private int existe=0;
 	private JComboBox cbMarca;
@@ -62,17 +74,28 @@ public class VentanaVehiculo extends JFrame {
 	private JComboBox cbColor;
 	private JComboBox cbCategoria;
 	private JComboBox cbUbicacion;
-	private JTabbedPane tabbedPane;
-	private JPanel panel_1;
-	private JPanel panel_2;
-	private JPanel panel_3;
-	private JPanel panel_4;
-	private JPanel panel_5;
+	static public JTabbedPane tabbedPane;
+	static public  JPanel panel_1;
+	static public  JPanel panel_2;
+	static public JPanel panel_3;
+	static public JPanel panel_4;
 	private JComboBox cbTipo;
 	private JComboBox cbCilindrada;
 	private JComboBox cbLicencia;
 	private JComboBox cbEmision;
 	private JComboBox cbEmision_1;
+	private JButton btnCancelar;
+	static public JPanel panel;
+	private JButton btnEliminar;
+	private JButton btnEliminar2;
+	private JButton btnEliminar3;
+	private JButton btnEliminar4;
+	private JButton btnEliminar2_1;
+	private JButton btnEliminar2_2;
+	private Eliminar_vehiculo elimina=new Eliminar_vehiculo();
+	private JComboBox cbTipo2;
+
+	
 	
 
 	/**
@@ -103,7 +126,7 @@ public class VentanaVehiculo extends JFrame {
 	 * @throws Localidad_no_valida 
 	 */
 	public VentanaVehiculo() throws SQLException, Codigo_no_valido, Descripcion_no_valida, Recargo_no_valido, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida {
-		JFrame yo=this;
+		yo=this;
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 938, 356);
@@ -112,7 +135,7 @@ public class VentanaVehiculo extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -146,10 +169,11 @@ public class VentanaVehiculo extends JFrame {
 						
 						if(vehiculo.getClass()==Coche_electrico.class) {
 							//TODO
+						
 							tabbedPane.setSelectedIndex(0);
 							MetodosGui.activaFormulario(panel_1);
-							textAutonomia.setText(String.valueOf(((Coche_electrico)vehiculo).getAutonomia()));
-							textRecarga.setText(String.valueOf(((Coche_electrico)vehiculo).getRecarga()));
+							textAutonomia1.setText(String.valueOf(((Coche_electrico)vehiculo).getAutonomia()));
+							textRecarga1.setText(String.valueOf(((Coche_electrico)vehiculo).getRecarga()));
 							textPlaza.setText(String.valueOf(((Coche_electrico)vehiculo).getPlazas()));
 							cbTipo.setSelectedItem(((Coche_electrico)vehiculo).getTipo());
 							
@@ -166,8 +190,8 @@ public class VentanaVehiculo extends JFrame {
 							textConsumo.setText(String.valueOf(((Coche_combustion)vehiculo).getConsumo()));
 							textPotencia.setText(String.valueOf(((Coche_combustion)vehiculo).getPotencia()));
 							cbEmision.setSelectedItem(((Coche_combustion)vehiculo).getEmisiones());
-							textPlaza.setText(String.valueOf(((Coche_combustion)vehiculo).getPlazas()));
-							cbTipo.setSelectedItem(((Coche_combustion)vehiculo).getTipo());
+							textPlaza2.setText(String.valueOf(((Coche_combustion)vehiculo).getPlazas()));
+							cbTipo2.setSelectedItem(((Coche_combustion)vehiculo).getTipo());
 							
 						}else if(vehiculo.getClass()==Furgoneta.class) {
 							tabbedPane.setSelectedIndex(3);
@@ -179,9 +203,10 @@ public class VentanaVehiculo extends JFrame {
 							cbLicencia.setSelectedItem(((Furgoneta)vehiculo).getCarnet());
 							
 						}
+					}else {
+						tabbedPane.setEnabled(true);
 					}
 					
-					MetodosGui.activaFormulario(panel_5);
 				} catch (Matricula_no_valida e1) {
 					JOptionPane.showMessageDialog(null, "La matricula introducida no es valida","ERROR",JOptionPane.ERROR_MESSAGE);
 				}
@@ -240,19 +265,19 @@ public class VentanaVehiculo extends JFrame {
 		lblAutonomia1.setBounds(249, 66, 66, 13);
 		panel_1.add(lblAutonomia1);
 		
-		textAutonomia = new JTextField();
-		textAutonomia.setBounds(341, 63, 96, 19);
-		panel_1.add(textAutonomia);
-		textAutonomia.setColumns(10);
+		textAutonomia1 = new JTextField();
+		textAutonomia1.setBounds(341, 63, 96, 19);
+		panel_1.add(textAutonomia1);
+		textAutonomia1.setColumns(10);
 		
 		JLabel lblRecarga1 = new JLabel("Recarga");
 		lblRecarga1.setBounds(504, 66, 52, 13);
 		panel_1.add(lblRecarga1);
 		
-		textRecarga = new JTextField();
-		textRecarga.setBounds(566, 63, 43, 19);
-		panel_1.add(textRecarga);
-		textRecarga.setColumns(10);
+		textRecarga1 = new JTextField();
+		textRecarga1.setBounds(566, 63, 43, 19);
+		panel_1.add(textRecarga1);
+		textRecarga1.setColumns(10);
 		
 		JLabel lblPlaza = new JLabel("Plazas");
 		lblPlaza.setBounds(249, 139, 45, 13);
@@ -280,19 +305,19 @@ public class VentanaVehiculo extends JFrame {
 		lblAutonomia2.setBounds(249, 66, 66, 13);
 		panel_2.add(lblAutonomia2);
 		
-		textAutonomia = new JTextField();
-		textAutonomia.setBounds(341, 63, 96, 19);
-		textAutonomia.setColumns(10);
-		panel_2.add(textAutonomia);
+		textAutonomia2 = new JTextField();
+		textAutonomia2.setBounds(341, 63, 96, 19);
+		textAutonomia2.setColumns(10);
+		panel_2.add(textAutonomia2);
 		
 		JLabel lblRecarga2 = new JLabel("Recarga");
 		lblRecarga2.setBounds(504, 66, 52, 13);
 		panel_2.add(lblRecarga2);
 		
-		textRecarga = new JTextField();
-		textRecarga.setBounds(566, 63, 43, 19);
-		textRecarga.setColumns(10);
-		panel_2.add(textRecarga);
+		textRecarga2 = new JTextField();
+		textRecarga2.setBounds(566, 63, 43, 19);
+		textRecarga2.setColumns(10);
+		panel_2.add(textRecarga2);
 		
 		JLabel lblCilindrada = new JLabel("Cilindradas");
 		lblCilindrada.setBounds(249, 139, 66, 13);
@@ -311,6 +336,17 @@ public class VentanaVehiculo extends JFrame {
 		cbLicencia.setModel(new DefaultComboBoxModel(new String[] {"AM", "A1", "A2"}));
 		cbLicencia.setBounds(566, 135, 59, 21);
 		panel_2.add(cbLicencia);
+		
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(647, 220, 84, 21);
+		Cancelar_moto listener2=new Cancelar_moto();
+		btnCancelar.addActionListener(listener2);
+		panel_2.add(btnCancelar);
+		
+		btnEliminar2 = new JButton("Eliminar");
+		btnEliminar2.addActionListener(elimina);
+		btnEliminar2.setBounds(737, 220, 83, 21);
+		panel_2.add(btnEliminar2);
 		
 		
 		panel_3 = new JPanel();
@@ -343,15 +379,15 @@ public class VentanaVehiculo extends JFrame {
 		lblTipo3.setBounds(504, 139, 45, 13);
 		panel_3.add(lblTipo3);
 		
-		textPlaza = new JTextField();
-		textPlaza.setBounds(304, 136, 25, 19);
-		panel_3.add(textPlaza);
-		textPlaza.setColumns(10);
+		textPlaza2 = new JTextField();
+		textPlaza2.setBounds(304, 136, 25, 19);
+		panel_3.add(textPlaza2);
+		textPlaza2.setColumns(10);
 		
-		JComboBox cbTipo3 = new JComboBox();
-		cbTipo3.setModel(new DefaultComboBoxModel(new String[] {"Deportivo", "Familiar", "4x4"}));
-		cbTipo3.setBounds(566, 135, 85, 21);
-		panel_3.add(cbTipo3);
+		cbTipo2 = new JComboBox();
+		cbTipo2.setModel(new DefaultComboBoxModel(new String[] {"Deportivo", "Familiar", "4x4"}));
+		cbTipo2.setBounds(566, 135, 85, 21);
+		panel_3.add(cbTipo2);
 		
 		JLabel lblEmision = new JLabel("Emisiones");
 		lblEmision.setBounds(639, 66, 64, 13);
@@ -362,6 +398,17 @@ public class VentanaVehiculo extends JFrame {
 		cbEmision.setBounds(713, 62, 43, 21);
 		panel_3.add(cbEmision);
 		
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(625, 220, 96, 21);
+		Cancelar_coche_combustion listener3=new Cancelar_coche_combustion();
+		btnCancelar.addActionListener(listener3);
+		panel_3.add(btnCancelar);
+		
+		btnEliminar3 = new JButton("Eliminar");
+		btnEliminar3.setBounds(731, 220, 83, 21);
+		btnEliminar3.addActionListener(elimina);
+		panel_3.add(btnEliminar3);
+		
 		panel_4 = new JPanel();
 		tabbedPane.addTab("Furgoneta", null, panel_4, null);
 		panel_4.setLayout(null);
@@ -370,19 +417,19 @@ public class VentanaVehiculo extends JFrame {
 		lblConsumo2.setBounds(249, 66, 66, 13);
 		panel_4.add(lblConsumo2);
 		
-		textAutonomia = new JTextField();
-		textAutonomia.setBounds(341, 63, 96, 19);
-		panel_4.add(textAutonomia);
-		textAutonomia.setColumns(10);
+		textConsumo2 = new JTextField();
+		textConsumo2.setBounds(341, 63, 96, 19);
+		panel_4.add(textConsumo2);
+		textConsumo2.setColumns(10);
 		
 		JLabel lblPotencia2 = new JLabel("Potencia");
 		lblPotencia2.setBounds(504, 66, 52, 13);
 		panel_4.add(lblPotencia2);
 		
-		textRecarga = new JTextField();
-		textRecarga.setBounds(566, 63, 43, 19);
-		panel_4.add(textRecarga);
-		textRecarga.setColumns(10);
+		textPotencia2 = new JTextField();
+		textPotencia2.setBounds(566, 63, 43, 19);
+		panel_4.add(textPotencia2);
+		textPotencia2.setColumns(10);
 		
 		JLabel lblCarga = new JLabel("Carga");
 		lblCarga.setBounds(249, 139, 45, 13);
@@ -411,56 +458,34 @@ public class VentanaVehiculo extends JFrame {
 		cbEmision_1.setBounds(745, 62, 43, 21);
 		panel_4.add(cbEmision_1);
 		
-		panel_5 = new JPanel();
-		contentPane.add(panel_5, BorderLayout.SOUTH);
-		panel_5.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MetodosGui.desactivaFormulario(contentPane);
-				MetodosGui.limpiaTexto(panel);
-				MetodosGui.desactivaFormulario(tabbedPane);
-				MetodosGui.limpiaTexto(tabbedPane);
-				textMatricula.setEnabled(true);
-				
-			}
-		});
-		panel_5.add(btnCancelar);
+		btnCancelar.setBounds(639, 220, 89, 21);
+		Cancelar_furgoneta listener4=new Cancelar_furgoneta();
+		btnCancelar.addActionListener(listener4);
+		panel_4.add(btnCancelar);
 		
-		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String matricula=textMatricula.getText();
-				
-				try {
-					//JDialog para avisar al usuario de que va a eliminar un vehiculo de la bd
-					Object[] options = {"Aceptar",  "Cancelar",};
-					int opc = JOptionPane.showOptionDialog(yo,"¿Desea eliminar este vehiculo?","AVISO",JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null,options,options[1]);
-					
-					if(opc==0) {
-						
-						VehiculoBD.eliminaVehiculo(matricula);
-						MetodosGui.limpiaTexto(contentPane);
-						MetodosGui.desactivaFormulario(contentPane);
-						textMatricula.setEnabled(true);
-						
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		panel_5.add(btnEliminar);
-		
-		JButton btnGuardar = new JButton("Guardar");
-		panel_5.add(btnGuardar);
+		btnEliminar4 = new JButton("Eliminar");
+		btnEliminar4.setBounds(738, 220, 83, 21);
+		btnEliminar4.addActionListener(elimina);
+		panel_4.add(btnEliminar4);
 		
 		MetodosGui.desactivaFormulario(contentPane);
 		MetodosGui.desactivaFormulario(panel_1);
-		textMatricula.setEnabled(true);
+		
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(639, 220, 85, 21);
+		Cancelar_coche_electrico listener1=new Cancelar_coche_electrico();
+		btnCancelar.addActionListener(listener1);
+		panel_1.add(btnCancelar);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(734, 220, 83, 21);
+		btnEliminar.addActionListener(elimina);
+		panel_1.add(btnEliminar);
+		
+		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.setBounds(827, 220, 79, 21);
+		panel_1.add(btnGuardar);
 		
 		JLabel lblFechaAdq = new JLabel("Fecha de adquisicion");
 		panel.add(lblFechaAdq);
@@ -470,5 +495,7 @@ public class VentanaVehiculo extends JFrame {
 		panel.add(calendarAdq);
 		
 		MetodosGui.limpiaTexto(panel);
+		MetodosGui.centraVentana(yo);
+		textMatricula.setEnabled(true);
 	}
 }

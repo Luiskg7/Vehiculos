@@ -1,5 +1,6 @@
 package accesoBD;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -112,7 +113,41 @@ public class VehiculoBD {
 		
 		PreparedStatement ps=Conexion.conexion.prepareStatement("DELETE FROM vehiculos WHERE matricula=?");
 		ps.setString(1, matricula);
-		ps.executeQuery();
+		ps.executeUpdate();
+		
+	}
+	public static void añadeCoche_electrico(String matricula, String marca, String modelo, String color, Date fecha_adq,
+			double kms, Categoria categoria, Oficina ubicacion, double autonomia, int recarga, int plazas,
+			String tipo) throws SQLException {
+		PreparedStatement ps=Conexion.conexion.prepareStatement("INSERT INTO vehiculos VALUES(?,?,?,?,?,?,?,?,?,?");
+		ps.setString(1,matricula);
+		ps.setString(2,marca);
+		ps.setString(3,modelo);
+		ps.setString(4,color);
+		ps.setDouble(5,kms);
+		ps.setString(6,categoria.getDescripcion());
+		ps.setString(7,ubicacion.getDescripcion());
+		ps.setString(8,ubicacion.getCodigo());
+		ps.setDate(9,fecha_adq);
+		ps.setString(10,categoria.getCodigo());
+		
+		ps.executeUpdate();
+		
+		ps=Conexion.conexion.prepareStatement("INSERT INTO electrico VALUES(?,?,?)");
+		ps.setDouble(1, autonomia);
+		ps.setInt(2, recarga);
+		ps.setString(3, matricula);
+		
+		ps.executeUpdate();
+		
+		ps=Conexion.conexion.prepareStatement("INSERT INT coche_electrico VALUES(?,?,?)");
+		ps.setString(1, String.valueOf(plazas));
+		ps.setString(2,tipo);
+		ps.setString(3, matricula);
+		
+		ps.executeUpdate();
+		
+		
 		
 	}
 
