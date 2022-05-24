@@ -52,7 +52,7 @@ public class Principal {
 					
 					switch(paso12) {
 						case "1":
-							interfazUsuario.Alta.darAltaCategoria(empresa);
+							//interfazUsuario.Alta.darAltaCategoria(empresa);
 							break;
 						
 					}
@@ -70,7 +70,7 @@ public class Principal {
 							String paso131=interfazUsuario.Menu.menuOpciones(opc131, opciones131, "¿Que desea hacer?", "-");
 							switch(paso131) {
 								case "1":
-									interfazUsuario.Alta.darAltaCocheElectrico(empresa);
+									//interfazUsuario.Alta.darAltaCocheElectrico(empresa);
 									
 								
 							}

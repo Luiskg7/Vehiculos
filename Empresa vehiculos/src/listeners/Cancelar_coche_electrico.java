@@ -17,6 +17,8 @@ public class Cancelar_coche_electrico implements ActionListener{
 		MetodosGui.desactivaFormulario(VentanaVehiculo.panel);
 		MetodosGui.limpiaTexto(VentanaVehiculo.panel);
 		VentanaVehiculo.textMatricula.setEnabled(true);
+		VentanaVehiculo.calendarAdq.setCalendar(null);
+		VentanaVehiculo.tabbedPane.setEnabled(false);
 		
 	}
 

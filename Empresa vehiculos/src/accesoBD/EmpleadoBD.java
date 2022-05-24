@@ -19,7 +19,7 @@ import gui.VentanaEmpleados;
 
 public class EmpleadoBD {
 
-	public static ArrayList<Empleado> listaOficinas() throws SQLException, Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
+	public static ArrayList<Empleado> listaEmpleados() throws SQLException, Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
 		
 		ArrayList<Empleado> listaEmpleados=new ArrayList<Empleado>();
 		ResultSet resultadoSql=Conexion.instruccionSelect(Conexion.conexion,"select dni,nombre,ape1,ape2,fecha_nac,fecha_alta,oficina_trab from persona,empleado,oficina where dni=persona_dni and oficina_codigo=oficina.codigo");

@@ -2,9 +2,12 @@ package gui;
 
 import java.awt.Component;
 
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Calendar;
 
+import java.sql.Date;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -12,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+
+import com.toedter.calendar.JCalendar;
 
 public class MetodosGui {
 	
@@ -22,6 +27,9 @@ public class MetodosGui {
 			if(!(c instanceof JLabel)) {
 				c.setEnabled(false);
 			}
+			if(c instanceof JCalendar) {
+				c.setEnabled(false);
+			}
 			//ver si el componente es otro panel para recorrerlo
 			if(c instanceof JPanel) {
 				desactivaFormulario((JPanel)c);
@@ -29,6 +37,7 @@ public class MetodosGui {
 			if(c instanceof JTabbedPane) {
 				desactivaFormulario((JTabbedPane)c);
 			}
+			
 			
 		}
 		
@@ -39,6 +48,9 @@ public class MetodosGui {
 		for (Component c:p.getComponents())
 		{
 			if(!(c instanceof JLabel)) {
+				c.setEnabled(false);
+			}
+			if(c instanceof JCalendar) {
 				c.setEnabled(false);
 			}
 			//ver si el componente es un panel para recorrerlo
@@ -60,6 +72,9 @@ public class MetodosGui {
 			if(!(c instanceof JLabel)) {
 				c.setEnabled(true);
 			}
+			if(c instanceof JCalendar) {
+				c.setEnabled(true);
+			}
 			//ver si el componente es otro panel para recorrerlo
 			if(c instanceof JPanel) {
 				activaFormulario((JPanel)c);
@@ -78,6 +93,9 @@ public class MetodosGui {
 		{
 			if(!(c instanceof JLabel)) {
 				c.setEnabled(true);
+			}
+			if(c instanceof JCalendar) {
+				c.setEnabled(true);			
 			}
 			//ver si el componente es un panel para recorrerlo
 			if(c instanceof JPanel) {
@@ -106,6 +124,10 @@ public class MetodosGui {
 			if(c instanceof JComboBox) {
 				((JComboBox) c).setSelectedIndex(-1);
 			}
+			
+			if(c instanceof JCalendar) {
+				((JCalendar) c).setCalendar(null);
+			}
 		}
 	}
 	
@@ -127,6 +149,9 @@ public class MetodosGui {
 			if(c instanceof JPanel) {
 				limpiaTexto((JPanel) c);
 			}
+			if(c instanceof JCalendar) {
+				((JCalendar)c).setCalendar(null);
+			}
 		}
 	}
 
@@ -134,4 +159,5 @@ public class MetodosGui {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		yo.setLocation(dim.width/2-yo.getSize().width/2, dim.height/2-yo.getSize().height/2);
 	}
+
 }

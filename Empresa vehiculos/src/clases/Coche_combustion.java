@@ -94,7 +94,7 @@ public class Coche_combustion extends Combustion implements Serializable{
 	public boolean validaTipo (String tipo) {
 		boolean fin=true;
 		
-		if (tipo.equals("DEPORTIVO") || tipo.equals("FAMILIAR") || tipo.equals("4x4")) {
+		if (tipo.toUpperCase().equals("DEPORTIVO") || tipo.equals("FAMILIAR") || tipo.equals("4x4")) {
 			fin=true;
 		}else {
 			fin=false;

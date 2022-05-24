@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 
 
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -16,18 +17,35 @@ import accesoBD.EmpleadoBD;
 import accesoBD.OficinaBD;
 import accesoBD.VehiculoBD;
 import clases.*;
+import exceptions.Autonomia_no_valida;
+import exceptions.Carga_no_valida;
+import exceptions.Carnet_no_valido;
+import exceptions.Cilindrada_no_valida;
 import exceptions.Codigo_no_valido;
+import exceptions.Color_no_valido;
+import exceptions.Consumo_no_valido;
 import exceptions.Descripcion_no_valida;
+import exceptions.Emision_no_valida;
+import exceptions.Km_no_valido;
 import exceptions.Localidad_no_valida;
+import exceptions.Marca_no_valida;
 import exceptions.Matricula_no_valida;
+import exceptions.Modelo_no_valido;
 import exceptions.Opcion_no_valida;
+import exceptions.Plazas_no_validas;
+import exceptions.Potencia_no_valida;
 import exceptions.Provincia_no_valida;
+import exceptions.Recarga_no_valida;
 import exceptions.Recargo_no_valido;
+import exceptions.Tipo_no_valido;
 import listeners.Cancelar_coche_electrico;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.Date;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.awt.GridBagLayout;
 import java.awt.CardLayout;
 import javax.swing.BoxLayout;
@@ -70,7 +88,7 @@ public class VentanaVehiculo extends JFrame {
 	private JTextField textCarga;
 	private int existe=0;
 	private JComboBox cbMarca;
-	private JDateChooser calendarAdq;
+	static public JDateChooser calendarAdq;
 	private JComboBox cbColor;
 	private JComboBox cbCategoria;
 	private JComboBox cbUbicacion;
@@ -94,6 +112,10 @@ public class VentanaVehiculo extends JFrame {
 	private JButton btnEliminar2_2;
 	private Eliminar_vehiculo elimina=new Eliminar_vehiculo();
 	private JComboBox cbTipo2;
+	private JLabel lblKm;
+	private JTextField textKm;
+	private JButton btnGuardar3;
+	private JComboBox cbLicencia2;
 
 	
 	
@@ -129,7 +151,7 @@ public class VentanaVehiculo extends JFrame {
 		yo=this;
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 938, 356);
+		setBounds(100, 100, 1303, 356);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -166,6 +188,7 @@ public class VentanaVehiculo extends JFrame {
 						cbCategoria.setSelectedItem(vehiculo.getCategoria());
 						cbUbicacion.setSelectedItem(vehiculo.getUbicacion());
 						calendarAdq.setDate(vehiculo.getFecha_adq2());
+						textKm.setText(String.valueOf(vehiculo.getKms()));
 						
 						if(vehiculo.getClass()==Coche_electrico.class) {
 							//TODO
@@ -180,8 +203,8 @@ public class VentanaVehiculo extends JFrame {
 						}else if(vehiculo.getClass()==Motos.class) {
 							tabbedPane.setSelectedIndex(1);
 							MetodosGui.activaFormulario(panel_2);
-							textAutonomia.setText(String.valueOf(((Coche_electrico)vehiculo).getAutonomia()));
-							textRecarga.setText(String.valueOf(((Coche_electrico)vehiculo).getRecarga()));
+							textAutonomia2.setText(String.valueOf(((Motos)vehiculo).getAutonomia()));
+							textRecarga2.setText(String.valueOf(((Motos)vehiculo).getRecarga()));
 							cbCilindrada.setSelectedItem(String.valueOf(((Motos)vehiculo).getCilindrada()));
 							cbLicencia.setSelectedItem(((Motos)vehiculo).getLicencia());
 						}else if(vehiculo.getClass()==Coche_combustion.class) {
@@ -196,15 +219,18 @@ public class VentanaVehiculo extends JFrame {
 						}else if(vehiculo.getClass()==Furgoneta.class) {
 							tabbedPane.setSelectedIndex(3);
 							MetodosGui.activaFormulario(panel_4);
-							textConsumo.setText(String.valueOf(((Furgoneta)vehiculo).getConsumo()));
-							textPotencia.setText(String.valueOf(((Furgoneta)vehiculo).getPotencia()));
-							cbEmision.setSelectedItem(((Furgoneta)vehiculo).getEmisiones());
+							textConsumo2.setText(String.valueOf(((Furgoneta)vehiculo).getConsumo()));
+							textPotencia2.setText(String.valueOf(((Furgoneta)vehiculo).getPotencia()));
+							cbEmision_1.setSelectedItem(((Furgoneta)vehiculo).getEmisiones());
 							textCarga.setText(String.valueOf(((Furgoneta)vehiculo).getCarga()));
-							cbLicencia.setSelectedItem(((Furgoneta)vehiculo).getCarnet());
+							cbLicencia2.setSelectedItem(((Furgoneta)vehiculo).getCarnet());
 							
 						}
 					}else {
 						tabbedPane.setEnabled(true);
+						MetodosGui.activaFormulario(tabbedPane);
+						MetodosGui.limpiaTexto(tabbedPane);
+						existe=0;
 					}
 					
 				} catch (Matricula_no_valida e1) {
@@ -324,8 +350,8 @@ public class VentanaVehiculo extends JFrame {
 		panel_2.add(lblCilindrada);
 		
 		cbCilindrada = new JComboBox();
-		cbCilindrada.setModel(new DefaultComboBoxModel(new String[] {"125cc", "250cc", "300cc", "400cc"}));
-		cbCilindrada.setBounds(322, 136, 52, 19);
+		cbCilindrada.setModel(new DefaultComboBoxModel(new String[] {"125", "250", "300", "400"}));
+		cbCilindrada.setBounds(322, 136, 66, 19);
 		panel_2.add(cbCilindrada);
 		
 		JLabel lblLicencia = new JLabel("Licencia");
@@ -338,16 +364,15 @@ public class VentanaVehiculo extends JFrame {
 		panel_2.add(cbLicencia);
 		
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(647, 220, 84, 21);
+		btnCancelar.setBounds(987, 220, 84, 21);
 		Cancelar_moto listener2=new Cancelar_moto();
 		btnCancelar.addActionListener(listener2);
 		panel_2.add(btnCancelar);
 		
 		btnEliminar2 = new JButton("Eliminar");
 		btnEliminar2.addActionListener(elimina);
-		btnEliminar2.setBounds(737, 220, 83, 21);
+		btnEliminar2.setBounds(1081, 220, 83, 21);
 		panel_2.add(btnEliminar2);
-		
 		
 		panel_3 = new JPanel();
 		tabbedPane.addTab("Coche combustion", null, panel_3, null);
@@ -399,15 +424,69 @@ public class VentanaVehiculo extends JFrame {
 		panel_3.add(cbEmision);
 		
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(625, 220, 96, 21);
+		btnCancelar.setBounds(975, 220, 96, 21);
 		Cancelar_coche_combustion listener3=new Cancelar_coche_combustion();
 		btnCancelar.addActionListener(listener3);
 		panel_3.add(btnCancelar);
 		
 		btnEliminar3 = new JButton("Eliminar");
-		btnEliminar3.setBounds(731, 220, 83, 21);
+		btnEliminar3.setBounds(1081, 220, 83, 21);
 		btnEliminar3.addActionListener(elimina);
 		panel_3.add(btnEliminar3);
+		
+		btnGuardar3 = new JButton("Guardar");
+		btnGuardar3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				java.sql.Date a=new java.sql.Date(calendarAdq.getDate().getTime());
+				
+				
+					try {
+						Coche_combustion coche=new Coche_combustion(textMatricula.getText(),(String)cbMarca.getSelectedItem(),textModelo.getText(),(String)cbColor.getSelectedItem(),a,Double.parseDouble(textKm.getText()),(Categoria)cbCategoria.getSelectedItem(),(Oficina)cbUbicacion.getSelectedItem(),Double.parseDouble(textConsumo.getText()),Integer.parseInt(textPotencia.getText()),(String)cbEmision.getSelectedItem(),Integer.parseInt(textPlaza2.getText()),(String)cbTipo2.getSelectedItem());
+						
+						if (existe==0) {
+							VehiculoBD.añadeCoche_combustion(coche);
+						}else {
+							VehiculoBD.modificaCoche_combustion(coche, (Categoria)cbCategoria.getSelectedItem(), (Oficina)cbUbicacion.getSelectedItem());
+						}
+						
+						MetodosGui.limpiaTexto(panel);
+						MetodosGui.desactivaFormulario(panel);
+						MetodosGui.limpiaTexto(tabbedPane);
+						MetodosGui.desactivaFormulario(tabbedPane);
+						textMatricula.setEnabled(true);
+						tabbedPane.setEnabled(false);
+						calendarAdq.setEnabled(false);
+					} catch (NumberFormatException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Rellene todos los campos","ERROR",JOptionPane.ERROR_MESSAGE);
+					} catch (Km_no_valido e1) {
+						JOptionPane.showMessageDialog(null, "Kilometros introducidos no válidos","ERROR",JOptionPane.ERROR_MESSAGE);
+					} catch (Matricula_no_valida e1) {
+						JOptionPane.showMessageDialog(null, "Matricula introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+					} catch (Marca_no_valida e1) {
+						JOptionPane.showMessageDialog(null, "Marca introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+					} catch (Modelo_no_valido e1) {
+						JOptionPane.showMessageDialog(null, "Modelo introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+					} catch (Color_no_valido e1) {
+						JOptionPane.showMessageDialog(null, "Color introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+					} catch (Emision_no_valida e1) {
+						JOptionPane.showMessageDialog(null, "Emision introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+					} catch (Potencia_no_valida e1) {
+						JOptionPane.showMessageDialog(null, "Potencia introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+					} catch (Consumo_no_valido e1) {
+						JOptionPane.showMessageDialog(null, "Consumo introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+					} catch (Plazas_no_validas e1) {
+						JOptionPane.showMessageDialog(null, "Plazas introducidas no válidas","ERROR",JOptionPane.ERROR_MESSAGE);
+					} catch (Tipo_no_valido e1) {
+						JOptionPane.showMessageDialog(null, "Tipo introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+					}catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				
+			}
+		});
+		btnGuardar3.setBounds(1174, 220, 90, 21);
+		panel_3.add(btnGuardar3);
 		
 		panel_4 = new JPanel();
 		tabbedPane.addTab("Furgoneta", null, panel_4, null);
@@ -444,7 +523,7 @@ public class VentanaVehiculo extends JFrame {
 		panel_4.add(textCarga);
 		textCarga.setColumns(10);
 		
-		JComboBox cbLicencia2 = new JComboBox();
+		cbLicencia2 = new JComboBox();
 		cbLicencia2.setModel(new DefaultComboBoxModel(new String[] {"B", "C", "D"}));
 		cbLicencia2.setBounds(566, 135, 52, 21);
 		panel_4.add(cbLicencia2);
@@ -459,32 +538,130 @@ public class VentanaVehiculo extends JFrame {
 		panel_4.add(cbEmision_1);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(639, 220, 89, 21);
+		btnCancelar.setBounds(982, 220, 89, 21);
 		Cancelar_furgoneta listener4=new Cancelar_furgoneta();
 		btnCancelar.addActionListener(listener4);
 		panel_4.add(btnCancelar);
 		
 		btnEliminar4 = new JButton("Eliminar");
-		btnEliminar4.setBounds(738, 220, 83, 21);
+		btnEliminar4.setBounds(1081, 220, 83, 21);
 		btnEliminar4.addActionListener(elimina);
 		panel_4.add(btnEliminar4);
 		
-		MetodosGui.desactivaFormulario(contentPane);
-		MetodosGui.desactivaFormulario(panel_1);
+		JButton btnGuardar4 = new JButton("Guardar");
+		btnGuardar4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				java.sql.Date fecha=new java.sql.Date(calendarAdq.getDate().getTime());
+				try {
+					
+					
+					Furgoneta furgoneta=new Furgoneta(textMatricula.getText(),(String)cbMarca.getSelectedItem(),textModelo.getText(),(String)cbColor.getSelectedItem(),fecha,Double.parseDouble(textKm.getText()),(Categoria)cbCategoria.getSelectedItem(),(Oficina)cbUbicacion.getSelectedItem(),Double.parseDouble(textConsumo2.getText()),Integer.parseInt(textPotencia2.getText()),(String)cbEmision_1.getSelectedItem(),Integer.parseInt(textCarga.getText()),(String)cbLicencia2.getSelectedItem());
+					
+					if(existe==0) {
+						VehiculoBD.añadeFurgoneta(furgoneta);
+					}else {
+						VehiculoBD.modificaFurgoneta(furgoneta, (Categoria)cbCategoria.getSelectedItem(), (Oficina)cbUbicacion.getSelectedItem());
+					}
+					
+					
+					MetodosGui.limpiaTexto(panel);
+					MetodosGui.desactivaFormulario(panel);
+					MetodosGui.limpiaTexto(tabbedPane);
+					MetodosGui.desactivaFormulario(tabbedPane);
+					textMatricula.setEnabled(true);
+					tabbedPane.setEnabled(false);
+					calendarAdq.setEnabled(false);
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Rellene todos los campos","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Km_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Kilometros introducidos no válidos","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Matricula_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Matricula introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Marca_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Marca introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Modelo_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Modelo introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Color_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Color introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Emision_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Emision introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Potencia_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Potencia introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Consumo_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Consumo introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Carga_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Carga introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Carnet_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Licencia introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnGuardar4.setBounds(1174, 220, 90, 21);
+		panel_4.add(btnGuardar4);
 		
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(639, 220, 85, 21);
+		btnCancelar.setBounds(986, 220, 85, 21);
 		Cancelar_coche_electrico listener1=new Cancelar_coche_electrico();
 		btnCancelar.addActionListener(listener1);
 		panel_1.add(btnCancelar);
 		
 		btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(734, 220, 83, 21);
+		btnEliminar.setBounds(1081, 220, 83, 21);
 		btnEliminar.addActionListener(elimina);
 		panel_1.add(btnEliminar);
 		
 		JButton btnGuardar = new JButton("Guardar");
-		btnGuardar.setBounds(827, 220, 79, 21);
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					java.sql.Date fecha=new java.sql.Date(calendarAdq.getDate().getTime());
+					Coche_electrico coche=new Coche_electrico(textMatricula.getText(),(String)cbMarca.getSelectedItem(),textModelo.getText(),(String)cbColor.getSelectedItem(),fecha,Double.parseDouble(textKm.getText()),(Categoria)cbCategoria.getSelectedItem(),(Oficina)cbUbicacion.getSelectedItem(),Double.parseDouble(textAutonomia1.getText()),Integer.parseInt(textRecarga1.getText()),Integer.parseInt(textPlaza.getText()),(String)cbTipo.getSelectedItem());
+					if(existe==0) {
+						VehiculoBD.añadeCoche_electrico(coche);
+					}else {
+						VehiculoBD.modificaCoche_electrico(coche, (Categoria)cbCategoria.getSelectedItem(), (Oficina)cbUbicacion.getSelectedItem());
+					}
+					
+					
+					//limpia el formulario una vez añadido el vehiculo
+					MetodosGui.limpiaTexto(panel);
+					MetodosGui.desactivaFormulario(panel);
+					MetodosGui.limpiaTexto(tabbedPane);
+					MetodosGui.desactivaFormulario(tabbedPane);
+					tabbedPane.setEnabled(false);
+					calendarAdq.setEnabled(false);
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Rellene todos los campos","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Km_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Introduzca un numero de kilometros valido","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Matricula_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Matricula introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Marca_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Marca introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Modelo_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Modelo introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Color_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Color introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Autonomia_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Autonomia introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Recarga_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Recarga introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Plazas_no_validas e1) {
+					JOptionPane.showMessageDialog(null, "Plazas introducidas no válidas","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Tipo_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Tipo introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnGuardar.setBounds(1174, 220, 90, 21);
 		panel_1.add(btnGuardar);
 		
 		JLabel lblFechaAdq = new JLabel("Fecha de adquisicion");
@@ -494,8 +671,73 @@ public class VentanaVehiculo extends JFrame {
 		calendarAdq.setDateFormatString("yyyy-MM-dd");
 		panel.add(calendarAdq);
 		
+		MetodosGui.desactivaFormulario(contentPane);
+		MetodosGui.desactivaFormulario(panel_1);
 		MetodosGui.limpiaTexto(panel);
 		MetodosGui.centraVentana(yo);
 		textMatricula.setEnabled(true);
+		
+		lblKm = new JLabel("Km");
+		panel.add(lblKm);
+		
+		textKm = new JTextField();
+		textKm.setColumns(10);
+		panel.add(textKm);
+		
+		JButton btnGuardar2 = new JButton("Guardar");
+		btnGuardar2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					java.sql.Date fecha=new java.sql.Date(calendarAdq.getDate().getTime());
+					Motos moto;
+					
+					moto = new Motos(textMatricula.getText(),(String)cbMarca.getSelectedItem(),textModelo.getText(),(String)cbColor.getSelectedItem(),fecha,Double.parseDouble(textKm.getText()),(Categoria)cbCategoria.getSelectedItem(),(Oficina)cbUbicacion.getSelectedItem(),Double.parseDouble(textAutonomia2.getText()),Integer.parseInt(textRecarga2.getText()),Integer.parseInt((String) cbCilindrada.getSelectedItem()),(String)cbLicencia.getSelectedItem());
+					
+					if(existe==0) {
+						VehiculoBD.añadeMoto(moto);
+					}else {
+						VehiculoBD.modificaMoto(moto, (Categoria)cbCategoria.getSelectedItem(), (Oficina)cbUbicacion.getSelectedItem());
+					}
+					
+					
+					//limpia el formulario una vez añadido el vehiculo
+					MetodosGui.limpiaTexto(panel);
+					MetodosGui.desactivaFormulario(panel);
+					textMatricula.setEnabled(true);
+					MetodosGui.limpiaTexto(tabbedPane);
+					MetodosGui.desactivaFormulario(tabbedPane);
+					tabbedPane.setEnabled(false);
+					calendarAdq.setEnabled(false);
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Rellene todos los campos","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Km_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Introduzca un numero de kilometros valido","ERROR",JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				} catch (Matricula_no_valida e1) {
+					e1.printStackTrace();
+				} catch (Marca_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Marca introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Modelo_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Modelo introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Color_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Color introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Autonomia_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Autonomia introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Recarga_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Recarga introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} catch (Carnet_no_valido e1) {
+					JOptionPane.showMessageDialog(null, "Carnet introducido no válido","ERROR",JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				} catch (Cilindrada_no_valida e1) {
+					JOptionPane.showMessageDialog(null, "Cilindrada introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				}
+			}
+			});
+		btnGuardar2.setBounds(1174, 220, 90, 21);
+		panel_2.add(btnGuardar2);
 	}
 }

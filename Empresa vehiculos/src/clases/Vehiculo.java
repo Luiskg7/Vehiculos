@@ -36,7 +36,7 @@ public abstract class Vehiculo implements Serializable{
 		return marca;
 	}
 	private void setMarca(String marca) throws Marca_no_valida {
-		if(marca.length()>=0 && marca.length()<=20) {
+		if(marca.length()>3 && marca.length()<=20) {
 			this.marca = marca;
 		}else {
 			throw new Marca_no_valida();
@@ -46,7 +46,7 @@ public abstract class Vehiculo implements Serializable{
 		return modelo;
 	}
 	private void setModelo(String modelo) throws Modelo_no_valido {
-		if (modelo.length()>=0 && modelo.length()<=20) {
+		if (modelo.length()>=2 && modelo.length()<=20) {
 			this.modelo = modelo;
 		}else {
 			throw new Modelo_no_valido();
@@ -75,7 +75,12 @@ public abstract class Vehiculo implements Serializable{
 		return kms;
 	}
 	private void setKms(double kms) throws Km_no_valido {
-		this.kms = kms;
+		if(kms>=0) {
+			this.kms = kms;
+		}else {
+			throw new Km_no_valido();
+		}
+		
 	}
 	public Categoria getCategoria() {
 		return categoria;
@@ -160,14 +165,6 @@ public abstract class Vehiculo implements Serializable{
 			throw new Color_no_valido("Compruebe que el color haya sido escrito correctamente y sin tíldes.");
 		}
 		
-	}
-	
-	public static void validaKm(double km) throws Km_no_valido {
-		if (km>=0) {
-			
-		}else {
-			throw new Km_no_valido("Debe ser superior a 0");
-		}
 	}
 	
 	/**

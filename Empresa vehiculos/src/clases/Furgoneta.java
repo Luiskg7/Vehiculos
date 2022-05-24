@@ -32,7 +32,7 @@ public class Furgoneta extends Combustion implements Serializable{
 		return carnet;
 	}
 	private void setCarnet(String carnet) throws Carnet_no_valido {
-		if (carnet.toUpperCase()=="B" || carnet.toUpperCase()=="C" || carnet.toUpperCase()=="D") {
+		if (carnet.toUpperCase().equals("B") || carnet.toUpperCase().equals("C") || carnet.toUpperCase().equals("D")) {
 			this.carnet = carnet;
 		}else {
 			throw new Carnet_no_valido("El carnet debe ser de tipo B/C/D");

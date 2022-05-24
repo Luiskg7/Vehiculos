@@ -15,6 +15,8 @@ public class Cancelar_furgoneta implements ActionListener{
 		MetodosGui.desactivaFormulario(VentanaVehiculo.panel);
 		MetodosGui.limpiaTexto(VentanaVehiculo.panel);
 		VentanaVehiculo.textMatricula.setEnabled(true);
+		VentanaVehiculo.calendarAdq.setCalendar(null);
+		VentanaVehiculo.tabbedPane.setEnabled(false);
 	}
 
 }

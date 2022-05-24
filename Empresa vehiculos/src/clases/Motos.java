@@ -32,7 +32,7 @@ public class Motos extends Electrico implements Serializable {
 			return licencia;
 		}
 		private void setLicencia(String licencia) throws Carnet_no_valido {
-			if(licencia.toUpperCase()=="AM" || licencia.toUpperCase()=="A1" || licencia.toUpperCase()=="A2") {
+			if(licencia.toUpperCase().equals("AM") || licencia.toUpperCase().equals("A1") || licencia.toUpperCase().equals("A2")) {
 				this.licencia = licencia;
 			}else {
 				throw new Carnet_no_valido("El carnet debe ser de tipo AM/A1/A2");

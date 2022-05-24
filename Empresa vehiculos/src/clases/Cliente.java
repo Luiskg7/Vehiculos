@@ -1,6 +1,7 @@
 package clases;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.GregorianCalendar;
 
 import exceptions.*;
@@ -19,8 +20,8 @@ public class Cliente extends Persona implements Serializable{
 		return licencia;
 	}
 	private void setLicencia(String licencia) throws Carnet_no_valido {
-		if (licencia.toUpperCase()=="B" ||licencia.toUpperCase()=="C" || licencia.toUpperCase()=="D" 
-				||licencia.toUpperCase()=="AM" || licencia.toUpperCase()=="A1" || licencia.toUpperCase()=="A2") {
+		if (licencia.toUpperCase().equals("B") ||licencia.toUpperCase().equals("C") || licencia.toUpperCase().equals("D") 
+				||licencia.toUpperCase().equals("AM") || licencia.toUpperCase().equals("A1") || licencia.toUpperCase().equals("A2")) {
 			this.licencia = licencia;
 		}else {
 			throw new Carnet_no_valido("El carnet debe ser de tipo B/C/D/AM/A1/A2");
@@ -60,6 +61,12 @@ public class Cliente extends Persona implements Serializable{
 	 */
 	//Constructores
 	public Cliente(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac, String licencia, String tarjeta) throws Carnet_no_valido, Longitud_no_valida, Tarjeta_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
+		super(nombre, ape1, ape2, dni,fecha_nac);
+		setLicencia(licencia);
+		setTarjeta(tarjeta);
+	}
+	
+	public Cliente(String nombre, String ape1, String ape2, String dni,Date fecha_nac, String licencia, String tarjeta) throws Carnet_no_valido, Longitud_no_valida, Tarjeta_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
 		super(nombre, ape1, ape2, dni,fecha_nac);
 		setLicencia(licencia);
 		setTarjeta(tarjeta);

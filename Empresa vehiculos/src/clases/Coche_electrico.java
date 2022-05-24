@@ -85,10 +85,7 @@ import exceptions.*;
 	}
 	
 	
-	
 	//Metodos
-	
-
 	/**
 	 * Metodo que comprueba que el tipo de coche introducido es válido segun las opciones que existen.
 	 * @param tipo String del tipo de coche
