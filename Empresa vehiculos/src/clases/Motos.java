@@ -80,4 +80,18 @@ public class Motos extends Electrico implements Serializable {
 		}
 	
 
+		@Override
+		public String toString() {
+			return getMarca()+" "+getModelo();
+		}
+		
+		public boolean equals(Vehiculo a) {
+			boolean igual=false;
+			if (a!=null) {
+				if (a.matricula.equals(this.matricula)) {
+					igual=true;
+				}
+			}
+			return igual;
+		}
 }

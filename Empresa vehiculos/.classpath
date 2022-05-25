@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="recursos"/>
+	<classpathentry kind="src" path="recursos1"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -12,6 +12,6 @@
 	<classpathentry kind="lib" path="C:/Users/lcgas/Downloads/jcalendar-1.4/lib/jgoodies-common-1.2.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/lcgas/Downloads/jcalendar-1.4/lib/jgoodies-looks-2.4.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/lcgas/Downloads/jcalendar-1.4/lib/junit-4.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/lcgas/git/vehiculos/Empresa vehiculos/recursos/iconos.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="lib" path="C:/Users/lcgas/git/vehiculos/Empresa vehiculos/recursos1/iconos.jar"/>
+	<classpathentry kind="output" path="recursos"/>
 </classpath>

@@ -39,6 +39,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.Toolkit;
 
 public class VentanaClientes extends JFrame {
 
@@ -57,30 +58,14 @@ public class VentanaClientes extends JFrame {
 	private int existe=0;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Conexion.conexion();
-					VentanaClientes frame = new VentanaClientes();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public VentanaClientes() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaClientes.class.getResource("/general/png/logo.png")));
 		JFrame yo=this;
 		setTitle("Cliente");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 620, 316);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

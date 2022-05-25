@@ -75,7 +75,7 @@ public class CategoriaBD {
 		ps.executeUpdate();
 	}
 	
-public static ArrayList<Categoria> listaCategorias() throws SQLException, Codigo_no_valido, Descripcion_no_valida, Recargo_no_valido {
+	public static ArrayList<Categoria> listaCategorias() throws SQLException, Codigo_no_valido, Descripcion_no_valida, Recargo_no_valido {
 		
 		ArrayList<Categoria> listaCategoria=new ArrayList<Categoria>();
 		ResultSet resultadoSql=Conexion.instruccionSelect(Conexion.conexion,"SELECT * FROM categoria");

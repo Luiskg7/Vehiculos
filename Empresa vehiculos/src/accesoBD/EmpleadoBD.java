@@ -12,35 +12,69 @@ import clases.Oficina;
 import clases.Persona;
 import exceptions.Ape1_no_valido;
 import exceptions.Ape2_no_valido;
+import exceptions.Codigo_no_valido;
+import exceptions.Descripcion_no_valida;
 import exceptions.Dni_no_valido;
+import exceptions.Localidad_no_valida;
 import exceptions.Longitud_no_valida;
+import exceptions.Opcion_no_valida;
+import exceptions.Provincia_no_valida;
 import gui.VentanaEmpleados;
 
 
 public class EmpleadoBD {
 
-	public static ArrayList<Empleado> listaEmpleados() throws SQLException, Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
+	public static ArrayList<Empleado> listaEmpleados() throws SQLException, Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
 		
 		ArrayList<Empleado> listaEmpleados=new ArrayList<Empleado>();
 		ResultSet resultadoSql=Conexion.instruccionSelect(Conexion.conexion,"select dni,nombre,ape1,ape2,fecha_nac,fecha_alta,oficina_trab from persona,empleado,oficina where dni=persona_dni and oficina_codigo=oficina.codigo");
 		Empleado empleado;
+		Oficina oficina;
+		
 		while(resultadoSql.next()) {
-			empleado=new Empleado(resultadoSql.getString("dni"),resultadoSql.getString("nombre"),resultadoSql.getString("ape1"),resultadoSql.getString("ape2"),resultadoSql.getDate("fecha_nac"),resultadoSql.getDate("fecha_alta"),resultadoSql.getString("oficina_trab"));
+
+			oficina=OficinaBD.listaOficinaDesc(resultadoSql.getString("oficina_trab"));
+			empleado=new Empleado(resultadoSql.getString("dni"),resultadoSql.getString("nombre"),resultadoSql.getString("ape1"),resultadoSql.getString("ape2"),resultadoSql.getDate("fecha_nac"),resultadoSql.getDate("fecha_alta"),oficina);
 			listaEmpleados.add(empleado);
 		}
 		return listaEmpleados;
 	}
 
-	public static Empleado listaEmpleado(String dni) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
+	public static ArrayList<Empleado> listaEmpleadoOficina(String codigo) throws SQLException, Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
+		
+		ArrayList<Empleado> listaEmpleados=new ArrayList<Empleado>();
+		PreparedStatement ps;
+		ps=Conexion.conexion.prepareStatement("select dni,nombre,ape1,ape2,fecha_nac,fecha_alta,oficina_trab from persona,empleado,oficina where dni=persona_dni and oficina_codigo=? and oficina_codigo=oficina.codigo");
+		ps.setString(1, codigo);
+		ResultSet resultadoSql=ps.executeQuery();
+		Empleado empleado;
+		Oficina oficina;
+		
+		while(resultadoSql.next()) {
+			oficina=OficinaBD.listaOficinaDesc(resultadoSql.getString("oficina_trab"));
+			empleado=new Empleado(resultadoSql.getString("nombre"),resultadoSql.getString("ape1"),resultadoSql.getString("ape2"),resultadoSql.getString("dni"),resultadoSql.getDate("fecha_nac"),resultadoSql.getDate("fecha_alta"),oficina);
+			listaEmpleados.add(empleado);
+		}
+		return listaEmpleados;
+	}
+	
+	
+	
+	
+	public static Empleado listaEmpleado(String dni) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
 		ResultSet resultadoSql=null;
 		Empleado empleado=null;
+		Oficina oficina;
 		try {
 			PreparedStatement ps=Conexion.conexion.prepareStatement("select dni,nombre,ape1,ape2,fecha_nac,fecha_alta,oficina_trab from persona,empleado,oficina where dni=? and dni=persona_dni and oficina_codigo=oficina.codigo");
 			ps.setString(1, dni);
 			resultadoSql=ps.executeQuery();
+			
+			
 			while (resultadoSql.next()) {
 				//si entra en el bucle, quiere decir que si existe el empleado
-				empleado=new Empleado(resultadoSql.getString("nombre"),resultadoSql.getString("ape1"),resultadoSql.getString("ape2"),dni,resultadoSql.getDate("fecha_nac"),resultadoSql.getDate("fecha_alta"),resultadoSql.getString("oficina_trab"));
+				oficina=OficinaBD.listaOficinaDesc(resultadoSql.getString("oficina_trab"));
+				empleado=new Empleado(resultadoSql.getString("nombre"),resultadoSql.getString("ape1"),resultadoSql.getString("ape2"),dni,resultadoSql.getDate("fecha_nac"),resultadoSql.getDate("fecha_alta"),oficina);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -105,4 +139,6 @@ public class EmpleadoBD {
 		ps.setString(1, dni);
 		ps.executeUpdate();
 	}
+	
+	
 }

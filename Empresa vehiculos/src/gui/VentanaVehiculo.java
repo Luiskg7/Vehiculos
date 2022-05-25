@@ -66,6 +66,7 @@ import java.awt.event.ActionEvent;
 import com.toedter.calendar.JDateChooser;
 
 import listeners.*;
+import java.awt.Toolkit;
 
 public class VentanaVehiculo extends JFrame {
 
@@ -117,26 +118,6 @@ public class VentanaVehiculo extends JFrame {
 	private JButton btnGuardar3;
 	private JComboBox cbLicencia2;
 
-	
-	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Conexion.conexion();
-					VentanaVehiculo frame = new VentanaVehiculo();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 * @throws Recargo_no_valido 
@@ -148,9 +129,10 @@ public class VentanaVehiculo extends JFrame {
 	 * @throws Localidad_no_valida 
 	 */
 	public VentanaVehiculo() throws SQLException, Codigo_no_valido, Descripcion_no_valida, Recargo_no_valido, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaVehiculo.class.getResource("/general/png/logo.png")));
 		yo=this;
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1303, 356);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -635,6 +617,7 @@ public class VentanaVehiculo extends JFrame {
 					MetodosGui.desactivaFormulario(tabbedPane);
 					tabbedPane.setEnabled(false);
 					calendarAdq.setEnabled(false);
+					textMatricula.setEnabled(true);
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Rellene todos los campos","ERROR",JOptionPane.ERROR_MESSAGE);

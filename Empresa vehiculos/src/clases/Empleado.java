@@ -18,7 +18,7 @@ public class Empleado extends Persona implements Serializable{
 	//propiedades
 	private GregorianCalendar fecha_alta;
 	private Date fecha_alta2;
-	private String oficina_trab;
+	private Oficina oficina_trab;
 	
 	//Getters and Setters
 	public GregorianCalendar getFecha_alta() {
@@ -33,10 +33,10 @@ public class Empleado extends Persona implements Serializable{
 	private void setFecha_alta(Date fecha_alta2) {
 		this.fecha_alta2 = fecha_alta2;
 	}
-	public String getOficina_trab() {
+	public Oficina getOficina_trab() {
 		return oficina_trab;
 	}
-	private void setOficina_trab(String oficina_trab) {
+	private void setOficina_trab(Oficina oficina_trab) {
 		this.oficina_trab = oficina_trab;
 	}
 	
@@ -56,19 +56,22 @@ public class Empleado extends Persona implements Serializable{
 	 * @throws Ape1_no_valido 
 	 */
 	public Empleado(String nombre, String ape1, String ape2, String dni,GregorianCalendar fecha_nac, GregorianCalendar fecha_alta,
-			String oficina_trab) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
+			Oficina oficina_trab) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
 		super(nombre, ape1, ape2, dni,fecha_nac);
 		setFecha_alta(fecha_alta);
 		setOficina_trab(oficina_trab);
 	}
 	
 	public Empleado(String nombre, String ape1, String ape2, String dni,Date fecha_nac, Date fecha_alta,
-			String oficina_trab) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
+			Oficina oficina_trab) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido {
 		super(nombre, ape1, ape2, dni,fecha_nac);
 		setFecha_alta(fecha_alta);
 		setOficina_trab(oficina_trab);
 	}
 	
-	
+	@Override
+	public String toString() {
+		return getNombre()+" "+getApe1();
+	}
 
 }

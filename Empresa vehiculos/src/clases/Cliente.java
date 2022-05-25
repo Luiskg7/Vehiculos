@@ -96,6 +96,6 @@ public class Cliente extends Persona implements Serializable{
 	@Override
 	public String toString()
 	{
-		return nombre+" "+ape1+" con dni: "+dni+" y con un carnet de: "+licencia;
+		return getNombre()+" "+getApe1();
 	}
 }

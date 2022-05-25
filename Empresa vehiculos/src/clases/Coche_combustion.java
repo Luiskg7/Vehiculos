@@ -94,7 +94,7 @@ public class Coche_combustion extends Combustion implements Serializable{
 	public boolean validaTipo (String tipo) {
 		boolean fin=true;
 		
-		if (tipo.toUpperCase().equals("DEPORTIVO") || tipo.equals("FAMILIAR") || tipo.equals("4x4")) {
+		if (tipo.toUpperCase().equals("DEPORTIVO") || tipo.toUpperCase().equals("FAMILIAR") || tipo.toUpperCase().equals("4x4")) {
 			fin=true;
 		}else {
 			fin=false;
@@ -104,4 +104,18 @@ public class Coche_combustion extends Combustion implements Serializable{
 	}
 	
 
+	@Override
+	public String toString() {
+		return getMarca()+" "+getModelo();
+	}
+	
+	public boolean equals(Vehiculo a) {
+		boolean igual=false;
+		if (a!=null) {
+			if (a.matricula.equals(this.matricula)) {
+				igual=true;
+			}
+		}
+		return igual;
+	}
 }

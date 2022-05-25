@@ -42,23 +42,6 @@ public class VentanaEmpleados extends JFrame {
 	private JTextField textDni;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Conexion.conexion();
-					VentanaEmpleados frame = new VentanaEmpleados();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 * @throws Codigo_no_valido 
 	 * @throws Opcion_no_valida 
@@ -70,9 +53,10 @@ public class VentanaEmpleados extends JFrame {
 	 * @throws Longitud_no_valida 
 	 */
 	public VentanaEmpleados() throws SQLException, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido, Dni_no_valido, Longitud_no_valida {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaEmpleados.class.getResource("/general/png/logo.png")));
 		JFrame yo=this;
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 707, 298);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -259,7 +243,7 @@ public class VentanaEmpleados extends JFrame {
 						textNombre.setText(empleado.getNombre());
 						textApe1.setText(empleado.getApe1());
 						textApe2.setText(empleado.getApe2());
-						cbOficinas.setSelectedItem(OficinaBD.listaOficinaDesc(empleado.getOficina_trab()));
+						cbOficinas.setSelectedItem(OficinaBD.listaOficinaDesc(empleado.getOficina_trab().getDescripcion()));
 						calendarAlta.setDate(empleado.getFecha_alta2());
 						calendarNac.setDate(empleado.getFecha_nac2());
 						

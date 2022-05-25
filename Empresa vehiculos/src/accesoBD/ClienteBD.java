@@ -3,6 +3,7 @@ package accesoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import clases.*;
@@ -15,6 +16,19 @@ import exceptions.Tarjeta_no_valida;
 
 public class ClienteBD {
 
+public static ArrayList<Cliente> listaClientes() throws SQLException, Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido, Carnet_no_valido, Tarjeta_no_valida {
+		
+		ArrayList<Cliente> listaEmpleados=new ArrayList<Cliente>();
+		ResultSet resultadoSql=Conexion.instruccionSelect(Conexion.conexion,"select dni,nombre,ape1,ape2,fecha_nac,licencia,tarjeta from persona,cliente where dni=persona_dni ");
+		Cliente cliente;
+		while(resultadoSql.next()) {
+			cliente=new Cliente(resultadoSql.getString("nombre"),resultadoSql.getString("ape1"),resultadoSql.getString("ape2"),resultadoSql.getString("dni"),resultadoSql.getDate("fecha_nac"),resultadoSql.getString("licencia"),resultadoSql.getString("tarjeta"));
+			listaEmpleados.add(cliente);
+		}
+		return listaEmpleados;
+	}
+	
+	
 	public static Cliente listaCliente(String dni) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido, Carnet_no_valido, Tarjeta_no_valida {
 		ResultSet resultadoSql=null;
 		Cliente cliente=null;

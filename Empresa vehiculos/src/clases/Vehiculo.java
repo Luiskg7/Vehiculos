@@ -14,7 +14,7 @@ public abstract class Vehiculo implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String matricula;
+	protected String matricula;
 	private String marca;
 	private String modelo;
 	private String color;

@@ -49,25 +49,6 @@ public class VentanaOficinas extends JFrame {
 	private int existe=0; //variable para ver si la oficina existe o no para crear una nueva o modificar la existente
 	private String codigo;
 	private JCheckBox chckbxAeropuerto;
-	
-	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Conexion.conexion();
-					VentanaOficinas frame = new VentanaOficinas();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -79,10 +60,11 @@ public class VentanaOficinas extends JFrame {
 	 * @throws SQLException 
 	 */
 	public VentanaOficinas() throws SQLException, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaOficinas.class.getResource("/general/png/logo.png")));
 		JFrame yo=this;
 		setTitle("Oficina");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 533, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -116,7 +98,7 @@ public class VentanaOficinas extends JFrame {
 		
 		textDescripcion = new JTextField();
 		textDescripcion.setEnabled(false);
-		textDescripcion.setBounds(97, 66, 96, 19);
+		textDescripcion.setBounds(97, 66, 153, 19);
 		contentPane.add(textDescripcion);
 		textDescripcion.setColumns(10);
 		
@@ -124,12 +106,12 @@ public class VentanaOficinas extends JFrame {
 		cbProvincia.setEnabled(false);
 		cbProvincia.setModel(new DefaultComboBoxModel(new String[] {"Alava", "Albacete", "Alicante", "Almer\u00EDa", "Asturias", "Avila", "Badajoz", "Barcelona", "Burgos", "Caceres", "Cadiz", "Cantabria", "Castellon", "Ciudad Real", "Cordoba", "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipuzcoa", "Huelva", "Huesca", "Islas Baleares", "Jaen", "La Coru\u00F1a", "La Rioja", "Las Palmas", "Leon", "Lerida", "Lugo", "Madrid", "Malaga", "Murcia", "Navarra", "Orense", "Palencia", "Pontevedra", "Salamanca", "Santa Cruz de Tenerife", "Segovia", "Sevilla", "Soria", "Tarragona", "Teruel", "Toledo", "Valencia", "Valladolid", "Vizcaya", "Zamora", "Zaragoza"}));
 		cbProvincia.setSelectedIndex(-1);
-		cbProvincia.setBounds(97, 88, 96, 21);
+		cbProvincia.setBounds(97, 88, 121, 21);
 		contentPane.add(cbProvincia);
 		
 		textLocalidad = new JTextField();
 		textLocalidad.setEnabled(false);
-		textLocalidad.setBounds(97, 112, 96, 19);
+		textLocalidad.setBounds(97, 112, 139, 19);
 		contentPane.add(textLocalidad);
 		textLocalidad.setColumns(10);
 		
