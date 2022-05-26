@@ -28,6 +28,7 @@ import exceptions.Codigo_no_valido;
 import exceptions.Color_no_valido;
 import exceptions.Descripcion_no_valida;
 import exceptions.Dni_no_valido;
+import exceptions.Fecha_no_valida;
 import exceptions.Km_no_valido;
 import exceptions.Localidad_no_valida;
 import exceptions.Longitud_no_valida;
@@ -116,7 +117,7 @@ public class VentanaAlquileres extends JFrame {
 		JTextField textCodigo = new JTextField();
 		textCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				//Al pulsar ENTER, se buscara el codigo introducido en la base de datos para ver si existe
 			
 				Alquiler alquiler;
 				
@@ -125,7 +126,7 @@ public class VentanaAlquileres extends JFrame {
 					MetodosGui.activaFormulario(contentPane);
 					textCodigo.setEnabled(false);
 					
-					if(alquiler!=null) {
+					if(alquiler!=null) {//Si existe se rellenan los campos con sus datos
 						existe=1;
 						
 						String oficina=alquiler.getEmpleado().getOficina_trab().getCodigo();
@@ -173,6 +174,7 @@ public class VentanaAlquileres extends JFrame {
 		cbOficina = new JComboBox();
 		cbOficina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Se vacian los datos del comboBox de vehiculos y empleados y se vuelve a rellenar dependiendo de la oficina elegida 
 				ofiVehiculo=null;
 				ofiVehiculo=new DefaultComboBoxModel();
 				ofiVehiculo.addAll(VehiculoBD.listaVehiculoOficina(((Oficina)cbOficina.getSelectedItem()).getCodigo()));
@@ -258,45 +260,53 @@ public class VentanaAlquileres extends JFrame {
 		
 		btnGuardar = new JButton("Realizar alquiler");
 		btnGuardar.setIcon(new ImageIcon(VentanaAlquileres.class.getResource("/general/png/16/diskette.png")));
-		btnGuardar.addActionListener(new ActionListener() {
+		btnGuardar.addActionListener(new ActionListener() {//Se guarda o modifica el alquiler dependiend de si existe o no en la bd
 			public void actionPerformed(ActionEvent e) {
-				Date a=new java.sql.Date(calendarAlq.getDate().getTime());
-				
+				//Se cambian los formatos a las fechas para poder hacer instrucciones SQL
 				Date fechaAql=new java.sql.Date(calendarAlq.getDate().getTime());
 				Date fechaDev=new java.sql.Date(calendarDev.getDate().getTime());
-				
+				//Calcula el precio para poder crear el objeto alquiler
 				double precio=AlquilerBD.calculaPrecio((Vehiculo)cbVehiculo.getSelectedItem(),fechaAql,fechaDev,((Vehiculo)cbVehiculo.getSelectedItem()).getCategoria(),(Oficina)cbOficina.getSelectedItem(),(Oficina)cbOficinaDev.getSelectedItem());
-				Alquiler alquiler=new Alquiler(Integer.parseInt(textCodigo.getText()),(Vehiculo)cbVehiculo.getSelectedItem(),(Empleado)cbEmpleado.getSelectedItem(),(Cliente)cbCliente.getSelectedItem(),fechaAql,fechaDev,(Oficina)cbOficinaDev.getSelectedItem(),precio);
-				if(existe==0) {
-					try {
-						AlquilerBD.creaAlquiler(alquiler);
-					} catch (SQLException e1) {
-						e1.printStackTrace();
+				Alquiler alquiler=null;
+				try {
+					alquiler = new Alquiler(Integer.parseInt(textCodigo.getText()),(Vehiculo)cbVehiculo.getSelectedItem(),(Empleado)cbEmpleado.getSelectedItem(),(Cliente)cbCliente.getSelectedItem(),fechaAql,fechaDev,(Oficina)cbOficinaDev.getSelectedItem(),precio);
+					if(existe==0) {
+						try {
+							AlquilerBD.creaAlquiler(alquiler);
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+					}else {
+						try {
+							AlquilerBD.modificaAlquiler(alquiler);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
-				}else {
-					try {
-						AlquilerBD.modificaAlquiler(alquiler);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					
+					//Limpia los campos rellenados
+					ofiVehiculo=null;
+					ofiVehiculo=new DefaultComboBoxModel();
+					cbVehiculo.setModel(ofiVehiculo);
+					ofiEmpleado=null;
+					ofiEmpleado=new DefaultComboBoxModel();
+					cbEmpleado.setModel(ofiEmpleado);
+					cbCliente.setSelectedIndex(-1);
+					calendarAlq.setCalendar(null);
+					calendarDev.setCalendar(null);
+					cbOficinaDev.setSelectedIndex(-1);
+					//Desactiva el formulario y activa el codigo del alquiler
+					MetodosGui.desactivaFormulario(contentPane);
+					textCodigo.setEnabled(true);
+					lblPrecio2.setText("");
+				} catch (NumberFormatException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				} catch (Fecha_no_valida e2) {
+					JOptionPane.showMessageDialog(null, "Fechas introducidas no validas","ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 				
-				//Limpia los campos rellenados
-				ofiVehiculo=null;
-				ofiVehiculo=new DefaultComboBoxModel();
-				cbVehiculo.setModel(ofiVehiculo);
-				ofiEmpleado=null;
-				ofiEmpleado=new DefaultComboBoxModel();
-				cbEmpleado.setModel(ofiEmpleado);
-				cbCliente.setSelectedIndex(-1);
-				calendarAlq.setCalendar(null);
-				calendarDev.setCalendar(null);
-				cbOficinaDev.setSelectedIndex(-1);
-				//Desactiva el formulario y activa el codigo del alquiler
-				MetodosGui.desactivaFormulario(contentPane);
-				textCodigo.setEnabled(true);
-				lblPrecio2.setText("");
 			}
 		});
 		btnGuardar.setBounds(503, 260, 159, 21);
@@ -307,7 +317,7 @@ public class VentanaAlquileres extends JFrame {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
+				//Limpia el formulario y vacia los datos de los comboBoxes de empleados y vehiculos
 				ofiVehiculo=null;
 				ofiVehiculo=new DefaultComboBoxModel();
 				cbVehiculo.setModel(ofiVehiculo);
@@ -344,7 +354,7 @@ public class VentanaAlquileres extends JFrame {
 		btnElimina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//JDialog para avisar al usuario de que va a eliminar una oficina de la bd
+				//JDialog para avisar al usuario de que va a eliminar un alquiler de la bd
 				Object[] options = {"Aceptar",  "Cancelar",};
 				int opc = JOptionPane.showOptionDialog(yo,"¿Desea eliminar este alquiler?","AVISO",JOptionPane.YES_NO_CANCEL_OPTION,
 				JOptionPane.QUESTION_MESSAGE, null,options,options[1]);
@@ -370,7 +380,7 @@ public class VentanaAlquileres extends JFrame {
 						textCodigo.setText("");
 						textCodigo.setEnabled(true);
 					} catch (NumberFormatException | SQLException e1) {
-						// TODO Auto-generated catch block
+						
 						e1.printStackTrace();
 					}
 					

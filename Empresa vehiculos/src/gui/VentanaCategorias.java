@@ -61,7 +61,7 @@ public class VentanaCategorias extends JFrame {
 		contentPane.add(lblRecargo);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
+		btnCancelar.addActionListener(new ActionListener() {//Limpia y deshabilita los campos menos el codigo
 			public void actionPerformed(ActionEvent e) {
 				MetodosGui.desactivaFormulario(contentPane);
 				MetodosGui.limpiaTexto(contentPane);
@@ -84,7 +84,7 @@ public class VentanaCategorias extends JFrame {
 					int opc = JOptionPane.showOptionDialog(yo,"¿Desea eliminar esta categoria? Los vehiculos que sean de esta categoria también serán eliminados","AVISO",JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null,options,options[1]);
 					
-					if(opc==0) {
+					if(opc==0) {//Si se introduce que si se quiere eliminar, se elimina la categoria y limpia los campos
 						CategoriaBD.eliminaCategoria(codigo);
 						MetodosGui.limpiaTexto(contentPane);
 						MetodosGui.desactivaFormulario(contentPane);
@@ -103,18 +103,14 @@ public class VentanaCategorias extends JFrame {
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String codigo=textCodigo.getText();
-				String descripcion=textDescripcion.getText();
 				int recargo=Integer.parseInt(textRecargo.getText());
 				
 				try {
-					Categoria.validaDescripcion(descripcion);
-					Categoria.validaRecargo(recargo);
-					
-					if(existe==1) {
-						CategoriaBD.modificaCategoria(codigo, descripcion, recargo);
+					Categoria categoria=new Categoria(textCodigo.getText(),textDescripcion.getText(),recargo);
+					if(existe==1) {//Dependiendo de si existe o no la categoria,se añadirá o modificará
+						CategoriaBD.modificaCategoria(categoria);
 					}else {
-						CategoriaBD.añadeCategoria(codigo, descripcion, recargo);
+						CategoriaBD.añadeCategoria(categoria);
 					}
 					MetodosGui.desactivaFormulario(contentPane);
 					MetodosGui.limpiaTexto(contentPane);
@@ -125,7 +121,10 @@ public class VentanaCategorias extends JFrame {
 				}catch(Recargo_no_valido e2) {
 					JOptionPane.showMessageDialog(null, "El recargo debe ser entre 0 y 100","ERROR",JOptionPane.ERROR_MESSAGE);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
+					
+					e1.printStackTrace();
+				} catch (Codigo_no_valido e1) {
+				
 					e1.printStackTrace();
 				}
 			}
@@ -158,12 +157,12 @@ public class VentanaCategorias extends JFrame {
 				Categoria categoria=null;
 				
 				try {
-					Categoria.validaCodigo(codigo);
-					categoria=CategoriaBD.listaCategoria(codigo);
+					Categoria.validaCodigo(codigo);//Comprueba que el código para buscar o añadir es válido
+					categoria=CategoriaBD.listaCategoria(codigo);//Busca si el código está en la bd
 					MetodosGui.activaFormulario(contentPane);
 					textCodigo.setEnabled(false);
 					
-					if(categoria!=null) {
+					if(categoria!=null) {//Si existe el código se rellenan los campos con los datos de la categoria
 						existe=1;
 						textCodigo.setEnabled(false);
 						textDescripcion.setText(categoria.getDescripcion());

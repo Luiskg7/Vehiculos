@@ -19,6 +19,7 @@ import exceptions.Descripcion_no_valida;
 import exceptions.Localidad_no_valida;
 import exceptions.Opcion_no_valida;
 import exceptions.Provincia_no_valida;
+import gui.MetodosGui;
 
 public class OficinaBD {
 	
@@ -83,45 +84,48 @@ public class OficinaBD {
 	}
 	
 	/**
-	 * Devuelve un ComboBox con todas las oficinas de la base de datos
-	 * @return ComboBox
+	 * Añade una oficina a la base de datos
+	 * @param oficina Oficina a añadir
 	 * @throws SQLException
+	 */
+	public static void añadeOficina(Oficina oficina) throws SQLException {
+		PreparedStatement ps=Conexion.conexion.prepareStatement("INSERT INTO oficina VALUES (?,?,?,?,?)");
+		ps.setString(1, oficina.getCodigo());
+		ps.setString(2, oficina.getDescripcion());
+		ps.setString(3, oficina.getLocalidad());
+		ps.setString(4, oficina.getProvincia());
+		ps.setBoolean(5, oficina.getAeropuerto());
+		
+		
+		ps.executeUpdate();
+		
+	}
+	
+	/**
+	 * Modifica los datos de una oficina existente
+	 * @param oficina
+	 * @throws SQLException
+	 */
+	public static void modificaOficina(Oficina oficina) throws SQLException {
+		PreparedStatement ps=Conexion.conexion.prepareStatement("update oficina set descripcion=?, provincia=?, localidad=?, aeropuerto=? where codigo=?");
+		ps.setString(1, oficina.getDescripcion());
+		ps.setString(2, oficina.getDescripcion());
+		ps.setString(3, oficina.getLocalidad());
+		ps.setBoolean(4, oficina.getAeropuerto());
+		ps.setString(5, oficina.getCodigo());
+		ps.executeUpdate();
+	}
+	
+	/**
+	 * Devuelve una oficina a traves de la descripcion de esta
+	 * @param descripcion
+	 * @return
 	 * @throws Descripcion_no_valida
 	 * @throws Localidad_no_valida
 	 * @throws Provincia_no_valida
 	 * @throws Opcion_no_valida
 	 * @throws Codigo_no_valido
 	 */
-	public static JComboBox cbOficinas() throws SQLException, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
-		JComboBox cbOficinas = new JComboBox();
-		DefaultComboBoxModel d=new DefaultComboBoxModel();
-		d.addAll(OficinaBD.listaOficinas());
-		cbOficinas.setModel(d);
-		
-		return cbOficinas;
-	}
-	
-	public static void añadeOficina(String codigo,String descripcion,String provincia,String localidad,boolean aeropuerto) throws SQLException {
-		PreparedStatement ps=Conexion.conexion.prepareStatement("INSERT INTO oficina VALUES (?,?,?,?,?)");
-		ps.setString(1, codigo);
-		ps.setString(2, descripcion);
-		ps.setString(3, localidad);
-		ps.setString(4, provincia);
-		ps.setBoolean(5, aeropuerto);
-		
-		
-		ps.executeUpdate();
-		
-	}
-	public static void modificaOficina(String codigo,String descripcion,String provincia,String localidad,boolean aeropuerto) throws SQLException {
-		PreparedStatement ps=Conexion.conexion.prepareStatement("update oficina set descripcion=?, provincia=?, localidad=?, aeropuerto=? where codigo=?");
-		ps.setString(1, descripcion);
-		ps.setString(2, provincia);
-		ps.setString(3, localidad);
-		ps.setBoolean(4, aeropuerto);
-		ps.setString(5, codigo);
-		ps.executeUpdate();
-	}
 	public static Oficina listaOficinaDesc(String descripcion) throws Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
 		ResultSet resultadoSql=null;
 		Oficina oficina=null;
@@ -145,5 +149,14 @@ public class OficinaBD {
 		return oficina;
 	}
 	
-	
+	/**
+	 * Elimina una oficina a través de su código de la base de datos
+	 * @param codigo
+	 * @throws SQLException
+	 */
+	public static void eliminaOficina(String codigo) throws SQLException {
+		PreparedStatement ps=Conexion.conexion.prepareStatement("DELETE FROM oficina where codigo=?");
+		ps.setString(1, codigo);
+		ps.executeUpdate();//elimina la oficina
+	}
 }

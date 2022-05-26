@@ -135,7 +135,7 @@ public class VentanaEmpleados extends JFrame {
 		contentPane.add(cbOficinas);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
+		btnCancelar.addActionListener(new ActionListener() {//Limpia y desactia el formulario menos el dni
 			public void actionPerformed(ActionEvent e) {
 				MetodosGui.desactivaFormulario(contentPane);
 				MetodosGui.limpiaTexto(contentPane);
@@ -153,12 +153,12 @@ public class VentanaEmpleados extends JFrame {
 				String dni=textDni.getText();
 				
 				try {
-					//JDialog para avisar al usuario de que va a eliminar una oficina de la bd
+					//JDialog para avisar al usuario de que va a eliminar un empleado de la bd
 					Object[] options = {"Aceptar",  "Cancelar",};
 					int opc = JOptionPane.showOptionDialog(yo,"¿Desea eliminar este empleado?","AVISO",JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null,options,options[1]);
 					
-					if(opc==0) {
+					if(opc==0) {//Elimina el empleado y limpia el formulario
 						
 						EmpleadoBD.eliminarEmpleado(dni);
 						MetodosGui.limpiaTexto(contentPane);
@@ -167,7 +167,6 @@ public class VentanaEmpleados extends JFrame {
 						btnIntroducir.setEnabled(true);
 					}
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -180,6 +179,8 @@ public class VentanaEmpleados extends JFrame {
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Se recopilan los datos introducidos y no se crea un objeto empleado por problemas con el formato de las fechas
+				//El formato de las fechas se arreglaran en los metodos para los empleados
 				String dni=textDni.getText();
 				String nombre=textNombre.getText();
 				String ape1=textApe1.getText();
@@ -193,7 +194,7 @@ public class VentanaEmpleados extends JFrame {
 					Persona.validaApe1(ape1);
 					Persona.validaApe2(ape2);
 					
-					if(existe==1) {
+					if(existe==1) {//Se añade o modifica el empleado en funcion de si existe o no
 						EmpleadoBD.modificaEmpleado(dni, nombre, ape1, ape2, oficina, fecha_nac, fecha_alta);
 					}else {
 						EmpleadoBD.añadeEmpleado(dni, nombre, ape1, ape2, oficina, fecha_nac, fecha_alta);

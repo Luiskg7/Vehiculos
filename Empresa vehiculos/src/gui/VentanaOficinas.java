@@ -124,27 +124,24 @@ public class VentanaOficinas extends JFrame {
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
-				String descripcion=textDescripcion.getText();
+				
 				String provincia=(String) cbProvincia.getSelectedItem();
-				String localidad=textLocalidad.getText();
 				boolean aeropuerto=chckbxAeropuerto.isSelected();
 				
 				try {
-					Oficina.validaDescripcion(descripcion);
-					Oficina.validaProvincia(provincia);
-					Oficina.validaLocalidad(localidad);
-					if(existe==1) {
-						OficinaBD.modificaOficina(codigo, descripcion, provincia, localidad, aeropuerto);
+					Oficina oficina=new Oficina(textCodigo.getText(),textDescripcion.getText(),textLocalidad.getText(),provincia,aeropuerto); //Creamos la oficina con los datos recogidos del formulario
+					if(existe==1) {//Dependiendo si existe o no la oficina, utilizaremos los metodos para añadirla o modificarla
+						OficinaBD.modificaOficina(oficina);
 					}else {
-						OficinaBD.añadeOficina(textCodigo.getText(), descripcion, provincia, localidad, aeropuerto);
+						OficinaBD.añadeOficina(oficina);
 					}
 					
-					
+					//Limpiamos los campos una vez añadida o modificada la oficina
 					MetodosGui.limpiaTexto(contentPane);
 					MetodosGui.desactivaFormulario(contentPane);
 					textCodigo.setEnabled(true);
 					btnIntroducir.setEnabled(true);
-				}catch(SQLException a) {
+				}catch(SQLException a) {//JDialogs en caso de que los campos no esten bien rellenados
 					JOptionPane.showMessageDialog(null, "Ocurrió un error durante la operación","ERROR",JOptionPane.ERROR_MESSAGE);
 				} catch (Descripcion_no_valida e1) {
 					JOptionPane.showMessageDialog(null, "Longitud de la descripción introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
@@ -152,6 +149,12 @@ public class VentanaOficinas extends JFrame {
 					JOptionPane.showMessageDialog(null, "Longitud de la localidad introducida no válida","ERROR",JOptionPane.ERROR_MESSAGE);
 				} catch (Provincia_no_valida e1) {
 					JOptionPane.showMessageDialog(null, "Provincia no válida","ERROR",JOptionPane.ERROR_MESSAGE);
+				} catch (Opcion_no_valida e1) {
+					
+					e1.printStackTrace();
+				} catch (Codigo_no_valido e1) {
+					
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -165,24 +168,17 @@ public class VentanaOficinas extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String codigo=textCodigo.getText();
 				try {
-					PreparedStatement ps=Conexion.conexion.prepareStatement("DELETE FROM oficina where codigo=?");
-					ps.setString(1, codigo);
+					
 					
 					//JDialog para avisar al usuario de que va a eliminar una oficina de la bd
 					Object[] options = {"Aceptar",  "Cancelar",};
 					int opc = JOptionPane.showOptionDialog(yo,"¿Desea eliminar esta oficina?","AVISO",JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null,options,options[1]);
 					
-					if (opc==0) {
-						ps.executeUpdate();//elimina la oficina
-						MetodosGui.limpiaTexto(contentPane);
-						MetodosGui.desactivaFormulario(contentPane);
-						textCodigo.setEnabled(true);
-						
+					if (opc==0) {//Si la opcion es sí,se elimina
+						OficinaBD.eliminaOficina(codigo);
 					}
-					
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -193,7 +189,8 @@ public class VentanaOficinas extends JFrame {
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {//Al pulsar,los campos quedaran limpios y deshabilitados y 
+				//solo se podrá introducir el codigo
 				MetodosGui.desactivaFormulario(contentPane);
 				MetodosGui.limpiaTexto(contentPane);
 				textCodigo.setEnabled(true);

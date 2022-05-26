@@ -147,7 +147,7 @@ public class VentanaVehiculo extends JFrame {
 		panel.add(lblMatricula);
 		
 		textMatricula = new JTextField();
-		textMatricula.addActionListener(new ActionListener() {
+		textMatricula.addActionListener(new ActionListener() {//Al darle al enter se comprueba si la matricula es valida
 			public void actionPerformed(ActionEvent e) {
 				String matricula=textMatricula.getText();
 				Vehiculo vehiculo=null;
@@ -155,13 +155,13 @@ public class VentanaVehiculo extends JFrame {
 				try {
 					Vehiculo.validaMatricula(matricula);
 						
-					vehiculo=VehiculoBD.listaVehiculo(matricula);
+					vehiculo=VehiculoBD.listaVehiculo(matricula);//Se mira si esta la matricula en la bd
 					MetodosGui.activaFormulario(panel);
 					textMatricula.setEnabled(false);
 					calendarAdq.setEnabled(true);
 					
 					
-					if(vehiculo!=null) {
+					if(vehiculo!=null) {//Si existe, se rellena los campos con los datos del vehiculo
 						existe=1;
 						
 						cbMarca.setSelectedItem(vehiculo.getMarca());
@@ -172,6 +172,7 @@ public class VentanaVehiculo extends JFrame {
 						calendarAdq.setDate(vehiculo.getFecha_adq2());
 						textKm.setText(String.valueOf(vehiculo.getKms()));
 						
+						//dependiendo de la clase del vehiculo, rellenará sus campos correspondientes del tabbedPane
 						if(vehiculo.getClass()==Coche_electrico.class) {
 							//TODO
 						
@@ -208,7 +209,7 @@ public class VentanaVehiculo extends JFrame {
 							cbLicencia2.setSelectedItem(((Furgoneta)vehiculo).getCarnet());
 							
 						}
-					}else {
+					}else {//Si no existe se activará el formulario para introducir los datos a mano
 						tabbedPane.setEnabled(true);
 						MetodosGui.activaFormulario(tabbedPane);
 						MetodosGui.limpiaTexto(tabbedPane);
@@ -419,13 +420,14 @@ public class VentanaVehiculo extends JFrame {
 		btnGuardar3 = new JButton("Guardar");
 		btnGuardar3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Convierte la fecha de JDateChooser a sql.Date para su funcionamiento en la base de datos
 				java.sql.Date a=new java.sql.Date(calendarAdq.getDate().getTime());
 				
 				
 					try {
 						Coche_combustion coche=new Coche_combustion(textMatricula.getText(),(String)cbMarca.getSelectedItem(),textModelo.getText(),(String)cbColor.getSelectedItem(),a,Double.parseDouble(textKm.getText()),(Categoria)cbCategoria.getSelectedItem(),(Oficina)cbUbicacion.getSelectedItem(),Double.parseDouble(textConsumo.getText()),Integer.parseInt(textPotencia.getText()),(String)cbEmision.getSelectedItem(),Integer.parseInt(textPlaza2.getText()),(String)cbTipo2.getSelectedItem());
 						
-						if (existe==0) {
+						if (existe==0) {//Dependiendo de si existe o no el vehiculo en la bd se añadirá o modificará
 							VehiculoBD.añadeCoche_combustion(coche);
 						}else {
 							VehiculoBD.modificaCoche_combustion(coche, (Categoria)cbCategoria.getSelectedItem(), (Oficina)cbUbicacion.getSelectedItem());

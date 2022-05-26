@@ -2,6 +2,8 @@ package clases;
 
 import java.sql.Date;
 
+import exceptions.Fecha_no_valida;
+
 public class Alquiler {
 	//propiedades
 	
@@ -43,8 +45,13 @@ public class Alquiler {
 	public Date getFecha_aql() {
 		return fecha_aql;
 	}
-	private void setFecha_aql(Date fecha_aql) {
-		this.fecha_aql = fecha_aql;
+	private void setFecha_aql(Date fecha_aql) throws Fecha_no_valida {
+		if(compruebaFechas(fecha_aql,fecha_dev)) {
+			this.fecha_aql = fecha_aql;
+		}else {
+			throw new Fecha_no_valida();
+		}
+		
 	}
 	public Date getFecha_dev() {
 		return fecha_dev;
@@ -69,7 +76,7 @@ public class Alquiler {
 	//Constructor
 	
 	public Alquiler(int codigo, Vehiculo vehiculo, Empleado empleado, Cliente cliente, Date fecha_aql, Date fecha_dev,
-			Oficina oficina_dev,double precio) {
+			Oficina oficina_dev,double precio) throws Fecha_no_valida {
 		super();
 		setCodigo(codigo);
 		setVehiculo(vehiculo);
@@ -81,7 +88,13 @@ public class Alquiler {
 		setPrecio(precio);
 	}
 	
-	
+	public boolean compruebaFechas(Date fecha_alq,Date fecha_dev) {
+		boolean fin=true;
+		if (fecha_aql.after(fecha_dev)) {
+			fin=false;
+		}
+		return fin;
+	}
 	
 	
 

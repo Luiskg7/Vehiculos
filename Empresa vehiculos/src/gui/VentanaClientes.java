@@ -133,7 +133,7 @@ public class VentanaClientes extends JFrame {
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					java.sql.Date fecha=new java.sql.Date(calendarFechaNac.getDate().getTime());
+					java.sql.Date fecha=new java.sql.Date(calendarFechaNac.getDate().getTime());//Convierte el formato de fecha para poder usarla en instrucciones sql
 					Cliente cliente=new Cliente(textNombre.getText(),textApe1.getText(),textApe2.getText(),textDni.getText(),fecha,(String)cbLicencia.getSelectedItem(),textTarjeta.getText());
 					if(existe==0) {
 						ClienteBD.añadeCliente(cliente);

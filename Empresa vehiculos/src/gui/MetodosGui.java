@@ -166,6 +166,12 @@ public class MetodosGui {
 		yo.setLocation(dim.width/2-yo.getSize().width/2, dim.height/2-yo.getSize().height/2);
 	}
 	
+	/**
+	 * Da la funcionalidad a un JTextField de actuar como buscador en una tabla con datos.
+	 * El texto introducido en él ayudará a encontrar los datos en la tabla con ese mismo texto
+	 * @param table Tabla a actuar 
+	 * @param textField Cuadro de texto que hará como buscador
+	 */
 	public static void SearchInJtable(JTable table, JTextField textField) 
     {
 

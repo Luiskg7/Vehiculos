@@ -24,6 +24,20 @@ import gui.VentanaEmpleados;
 
 public class EmpleadoBD {
 
+	/**
+	 * Devuelve todos los empleados de la base de datos en un ArrayList
+	 * @return
+	 * @throws SQLException
+	 * @throws Longitud_no_valida
+	 * @throws Dni_no_valido
+	 * @throws Ape1_no_valido
+	 * @throws Ape2_no_valido
+	 * @throws Descripcion_no_valida
+	 * @throws Localidad_no_valida
+	 * @throws Provincia_no_valida
+	 * @throws Opcion_no_valida
+	 * @throws Codigo_no_valido
+	 */
 	public static ArrayList<Empleado> listaEmpleados() throws SQLException, Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
 		
 		ArrayList<Empleado> listaEmpleados=new ArrayList<Empleado>();
@@ -40,6 +54,21 @@ public class EmpleadoBD {
 		return listaEmpleados;
 	}
 
+	/**
+	 * Devuelve todos los empleados de una oficina a traves del codigo de esta
+	 * @param codigo
+	 * @return
+	 * @throws SQLException
+	 * @throws Longitud_no_valida
+	 * @throws Dni_no_valido
+	 * @throws Ape1_no_valido
+	 * @throws Ape2_no_valido
+	 * @throws Descripcion_no_valida
+	 * @throws Localidad_no_valida
+	 * @throws Provincia_no_valida
+	 * @throws Opcion_no_valida
+	 * @throws Codigo_no_valido
+	 */
 	public static ArrayList<Empleado> listaEmpleadoOficina(String codigo) throws SQLException, Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
 		
 		ArrayList<Empleado> listaEmpleados=new ArrayList<Empleado>();
@@ -60,7 +89,20 @@ public class EmpleadoBD {
 	
 	
 	
-	
+	/**
+	 * Devuelve un empleado a traves de su dni
+	 * @param dni
+	 * @return
+	 * @throws Longitud_no_valida
+	 * @throws Dni_no_valido
+	 * @throws Ape1_no_valido
+	 * @throws Ape2_no_valido
+	 * @throws Descripcion_no_valida
+	 * @throws Localidad_no_valida
+	 * @throws Provincia_no_valida
+	 * @throws Opcion_no_valida
+	 * @throws Codigo_no_valido
+	 */
 	public static Empleado listaEmpleado(String dni) throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
 		ResultSet resultadoSql=null;
 		Empleado empleado=null;

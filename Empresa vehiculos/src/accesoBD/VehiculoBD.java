@@ -25,6 +25,11 @@ import exceptions.Tipo_no_valido;
 
 public class VehiculoBD {
 	
+	/**
+	 * Devuelve un ArrayList con todas las matriculas que hay en la base de datos
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ArrayList<String> listaMatriculas() throws SQLException{
 		ArrayList<String> listaMatricula=new ArrayList<String>();
 		ResultSet resultadoSql=null;
@@ -40,6 +45,12 @@ public class VehiculoBD {
 		return listaMatricula;
 	}
 
+	
+	/**
+	 * Devuelve un vehiculo de la base de datos a traves de su matricula
+	 * @param matricula
+	 * @return
+	 */
 	public static Vehiculo listaVehiculo(String matricula) {
 		Vehiculo vehiculo=null;
 		Categoria categoria=null;
@@ -155,6 +166,11 @@ public class VehiculoBD {
 		return vehiculo;
 	}
 	
+	/**
+	 * Lista todos los vehiculos de la base de datos en un ArrayList
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ArrayList<Vehiculo> listaVehiculos() throws SQLException {
 		Vehiculo vehiculo=null;
 		ArrayList<Vehiculo> listaVehiculos=new ArrayList<Vehiculo>();
@@ -530,6 +546,11 @@ public class VehiculoBD {
 	}
 
 
+	/**
+	 * Devuelve un vehiculo a través del codigo de la oficina a la que pertenece
+	 * @param codigo
+	 * @return
+	 */
 	public static ArrayList<Vehiculo> listaVehiculoOficina(String codigo) {
 		Vehiculo vehiculo=null;
 		Categoria categoria=null;

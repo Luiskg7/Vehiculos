@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import clases.*;
 import exceptions.Ape1_no_valido;
 import exceptions.Ape2_no_valido;
@@ -14,6 +16,7 @@ import exceptions.Carnet_no_valido;
 import exceptions.Codigo_no_valido;
 import exceptions.Descripcion_no_valida;
 import exceptions.Dni_no_valido;
+import exceptions.Fecha_no_valida;
 import exceptions.Localidad_no_valida;
 import exceptions.Longitud_no_valida;
 import exceptions.Opcion_no_valida;
@@ -33,18 +36,34 @@ public class AlquilerBD {
 			ps.setInt(1, codigo);
 			resultadoSql=ps.executeQuery();
 			while (resultadoSql.next()) {
-				//si entra en el bucle, quiere decir que si existe el empleado
+				//si entra en el bucle, quiere decir que si existe el alquiler
 				categoria=(VehiculoBD.listaVehiculo(resultadoSql.getString("vehiculos_matricula"))).getCategoria();
 				oficina=(VehiculoBD.listaVehiculo(resultadoSql.getString("vehiculos_matricula"))).getUbicacion();
 				alquiler=new Alquiler(codigo,VehiculoBD.listaVehiculo(resultadoSql.getString("vehiculos_matricula")),EmpleadoBD.listaEmpleado(resultadoSql.getString("empleado_persona_dni")),ClienteBD.listaCliente(resultadoSql.getString("cliente_persona_dni")),resultadoSql.getDate("fecha_inicio"),resultadoSql.getDate("fecha_dev"),OficinaBD.listaOficina(resultadoSql.getString("empleado_oficina_codigo")),resultadoSql.getDouble("precio"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (Fecha_no_valida e) {
+			JOptionPane.showMessageDialog(null, "Fechas introducidas no validas","ERROR",JOptionPane.ERROR_MESSAGE);
 		}
 		return alquiler;
 	}
 	
+	/**
+	 * Devuelve un ArrayList con todos los alquileres de la base de datos
+	 * @return
+	 * @throws Longitud_no_valida
+	 * @throws Dni_no_valido
+	 * @throws Ape1_no_valido
+	 * @throws Ape2_no_valido
+	 * @throws Carnet_no_valido
+	 * @throws Tarjeta_no_valida
+	 * @throws Descripcion_no_valida
+	 * @throws Localidad_no_valida
+	 * @throws Provincia_no_valida
+	 * @throws Opcion_no_valida
+	 * @throws Codigo_no_valido
+	 */
 	public static ArrayList<Alquiler> listaAlquileres() throws Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido, Carnet_no_valido, Tarjeta_no_valida, Descripcion_no_valida, Localidad_no_valida, Provincia_no_valida, Opcion_no_valida, Codigo_no_valido {
 		ResultSet resultadoSql=null;
 		Alquiler alquiler=null;
@@ -62,13 +81,19 @@ public class AlquilerBD {
 				lista.add(alquiler);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (Fecha_no_valida e) {
+			JOptionPane.showMessageDialog(null, "Fechas introducidas no validas","ERROR",JOptionPane.ERROR_MESSAGE);
 		}
 		return lista;
 	}
 	
-	public static double calculaPrecio(Alquiler alquiler) {
+	/**
+	 * Calcula el precio de un alquiler dado 
+	 * @param alquiler
+	 * @return
+	 */
+	public static double calculaPrecioAlq(Alquiler alquiler) {
 		Vehiculo vehiculo=alquiler.getVehiculo();
 		Categoria categoria=vehiculo.getCategoria();
 		Oficina alquilado=alquiler.getEmpleado().getOficina_trab();
@@ -122,6 +147,16 @@ public class AlquilerBD {
 		return precio;
 	}
 	
+	/**
+	 * Calcula el precio de un alquiler a través de los campos de este
+	 * @param vehiculo
+	 * @param fechaAlq
+	 * @param fechaDev
+	 * @param categoria
+	 * @param ofAlq
+	 * @param ofDev
+	 * @return
+	 */
 	public static double calculaPrecio(Vehiculo vehiculo,Date fechaAlq,Date fechaDev,Categoria categoria,Oficina ofAlq,Oficina ofDev) {
 		double cargoCategoria=0;
 		double precio=0;

@@ -16,7 +16,18 @@ import exceptions.Tarjeta_no_valida;
 
 public class ClienteBD {
 
-public static ArrayList<Cliente> listaClientes() throws SQLException, Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido, Carnet_no_valido, Tarjeta_no_valida {
+	/**
+	 * Devuelve todos los clientes de la base de datos en un ArrayList 
+	 * @return
+	 * @throws SQLException
+	 * @throws Longitud_no_valida
+	 * @throws Dni_no_valido
+	 * @throws Ape1_no_valido
+	 * @throws Ape2_no_valido
+	 * @throws Carnet_no_valido
+	 * @throws Tarjeta_no_valida
+	 */
+	public static ArrayList<Cliente> listaClientes() throws SQLException, Longitud_no_valida, Dni_no_valido, Ape1_no_valido, Ape2_no_valido, Carnet_no_valido, Tarjeta_no_valida {
 		
 		ArrayList<Cliente> listaEmpleados=new ArrayList<Cliente>();
 		ResultSet resultadoSql=Conexion.instruccionSelect(Conexion.conexion,"select dni,nombre,ape1,ape2,fecha_nac,licencia,tarjeta from persona,cliente where dni=persona_dni ");
@@ -33,7 +44,6 @@ public static ArrayList<Cliente> listaClientes() throws SQLException, Longitud_n
 		ResultSet resultadoSql=null;
 		Cliente cliente=null;
 		try {
-			//java.sql.Date fecha=new java.sql.Date(calendarFechaNac.)
 			PreparedStatement ps=Conexion.conexion.prepareStatement("select dni,nombre,ape1,ape2,fecha_nac,licencia,tarjeta from persona,cliente where dni=? and persona_dni=dni");
 			ps.setString(1, dni);
 			resultadoSql=ps.executeQuery();

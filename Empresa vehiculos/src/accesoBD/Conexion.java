@@ -40,17 +40,10 @@ public class Conexion {
 			instruccion = conexion.createStatement();
 			resultado=instruccion.executeQuery(query);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return resultado;
 	}
 
-	public static void desactivarFK() throws SQLException {
-		PreparedStatement ps=Conexion.conexion.prepareStatement("SET FOREIGN_KEY_CHECKS = 0");
-	}
 	
-	public static void activarFK() throws SQLException {
-		PreparedStatement ps=Conexion.conexion.prepareStatement("SET FOREIGN_KEY_CHECKS = 1");
-	}
 }

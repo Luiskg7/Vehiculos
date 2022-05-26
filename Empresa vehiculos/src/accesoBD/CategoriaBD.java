@@ -16,6 +16,14 @@ import exceptions.Recargo_no_valido;
 
 public class CategoriaBD {
 	
+	/**
+	 * Lista una categoria a traves de su codigo
+	 * @param codigo
+	 * @return
+	 * @throws Codigo_no_valido
+	 * @throws Descripcion_no_valida
+	 * @throws Recargo_no_valido
+	 */
 	public static Categoria listaCategoria(String codigo) throws Codigo_no_valido, Descripcion_no_valida, Recargo_no_valido {
 		ResultSet resultadoSql=null;
 		Categoria categoria=null;
@@ -35,6 +43,11 @@ public class CategoriaBD {
 	return categoria;
 	}
 	
+	/**
+	 * Elimina una categoria de la base de datos por su codigo
+	 * @param codigo
+	 * @throws SQLException
+	 */
 	public static void eliminaCategoria(String codigo) throws SQLException {
 		boolean hay=false;
 		PreparedStatement ps=Conexion.conexion.prepareStatement("SELECT matricula FROM vehiculos,categoria WHERE categoria_codigo=codigo");
@@ -57,24 +70,37 @@ public class CategoriaBD {
 		
 	}
 	
-	public static void añadeCategoria(String codigo,String descripcion,int recargo) throws SQLException {
+	/**
+	 * Añade una categoria a la base de datos
+	 * @param categoria
+	 * @throws SQLException
+	 */
+	public static void añadeCategoria(Categoria categoria) throws SQLException {
 		PreparedStatement ps=Conexion.conexion.prepareStatement("INSERT INTO categoria VALUES (?,?,?)");
-		ps.setString(1, codigo);
-		ps.setString(2, descripcion);
-		ps.setInt(3, recargo);
+		ps.setString(1, categoria.getCodigo());
+		ps.setString(2, categoria.getDescripcion());
+		ps.setInt(3, categoria.getRecargo());
 		
 		ps.executeUpdate();
 	}
 	
-	public static void modificaCategoria(String codigo,String descripcion,int recargo) throws SQLException {
+	public static void modificaCategoria(Categoria categoria) throws SQLException {
 		PreparedStatement ps=Conexion.conexion.prepareStatement("UPDATE categoria SET descripcion=?,recargo=? WHERE codigo=?");
-		ps.setString(1, descripcion);
-		ps.setInt(2, recargo);
-		ps.setString(3,codigo);
+		ps.setString(1, categoria.getDescripcion());
+		ps.setInt(2, categoria.getRecargo());
+		ps.setString(3,categoria.getCodigo());
 		
 		ps.executeUpdate();
 	}
 	
+	/**
+	 * Devuelve un ArrayList con todas la categorias de la base de datos
+	 * @return
+	 * @throws SQLException
+	 * @throws Codigo_no_valido
+	 * @throws Descripcion_no_valida
+	 * @throws Recargo_no_valido
+	 */
 	public static ArrayList<Categoria> listaCategorias() throws SQLException, Codigo_no_valido, Descripcion_no_valida, Recargo_no_valido {
 		
 		ArrayList<Categoria> listaCategoria=new ArrayList<Categoria>();
